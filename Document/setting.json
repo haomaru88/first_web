@@ -1,0 +1,41 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.background": "#21332138",
+        "editorLineNumber.foreground": "#a0ffa338",
+        // "activityBar.background": "#00582548",
+//        "sideBar.background": "#00582548",
+        // "sideBarSectionHeader.background": "#00582548",
+        // "tab.activeBackground": "#00582548",
+        // "tab.unfocusedActiveBackground": "#00582548",
+        // "tab.inactiveBackground": "#00582548",
+        "editorPane.background": "#00582548",
+        "button.background": "#00582548",
+        // "input.background": "#00582548",
+        // "dropdown.background": "#00582548",
+        // "checkbox.background": "#000000",
+    },
+    "editor.tokenColorCustomizations": {
+        "comments": {
+            "foreground": "#838383",
+            "fontStyle": ""
+        },
+    },
+    "editor.tabSize": 3,
+    "editor.renderWhitespace": "selection",
+    "workbench.activityBar.visible": true,
+    "php.validate.executablePath": "c:/Bitnami/wampstack-7.3.12-0/php/php.exe",
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorWidth": 2,
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.minimap.enabled": false,
+    "editor.renderControlCharacters": true,
+    "workbench.colorTheme": "Legacy - Material Theme Darker",
+    "search.showLineNumbers": true,
+    "editor.mouseWheelZoom": true,
+    "files.autoSave": "onFocusChange",
+    "oneDarkPro.editorTheme": "Onedark Pro",
+    "materialTheme.accent": "Acid Lime",
+    "oneDarkPro.italic": true,
+    "oneDarkPro.vivid": true,
+    "editor.formatOnType": true
+}

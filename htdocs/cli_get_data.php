@@ -12,10 +12,6 @@ function my_dump ($item, $data) {
 	}
 }
 
-function console_log ($data) {
-	echo "<script>console.log('ConsoleLog : ". $data."');</script><br/>";
-}
-
 $table_index = 'table_index';
 $table_data = 'table_data';
 $myrow_id = 'id';
@@ -26,10 +22,24 @@ $myrow_layer = 'layer';
 $myrow_last_data_id = 'last_data_id';
 $myrow_update_datetime = 'update_datetime';
 $myrow_remark = 'remark';
+
 $myrow_depth = 'depth';
 $myrow_terperature = 'temperature';
 $myrow_salinity = 'salinity';
 $myrow_oxygen = 'oxygen';
+$myrow_battetry = 'battery';
+$myrow_latitude = 'latitude';
+$myrow_longitude = 'longitude';
+$myrow_date = 'date';
+$myrow_time = 'time';
+$myrow_serial_no = 'serial_no';
+$myrow_uid = 'uid';
+$myrow_rssi = 'rssi';
+$myrow_body = 'raw_data';
+$myrow_wind_direction = 'wind_direction';
+$myrow_wind_speed = 'wind_speed';
+$myrow_air_temperature = 'air_temperature';
+
 
 // $site_layer = array(
 // 	array(
@@ -70,8 +80,8 @@ $myrow_oxygen = 'oxygen';
 // 	),
 // )
 
-const SITE_NAME_LIST = array ('AI51', 'AI52', 'AI53', 'AI54', 'AI56', 'AI57',
-										'AI58', 'AI59', 'AI60', 'AI61', 'ZI45');
+const SITE_NAME_LIST = array ('ZI45', 'AI51', 'AI52', 'AI53', 'AI54', 'AI56',
+										'AI57', 'AI58', 'AI59', 'AI60', 'AI61');
 
 function insert_data_table ($mail) {
 	$search_list = array("/", "_");
@@ -97,39 +107,49 @@ function insert_data_table ($mail) {
 		return NG;
 	}
 
-	my_dump('$site_name', $site_name);
+	// 기본은 3개층이고 ZI45는 4개층이다.
+	$layer = 3;
+	if (SITE_NAME_LIST[0] === $site_name) {
+		$layer = 4;
+	}
 
 
 	return OK;
 }
 
+// $hostname = "{imap.gmail.com:993/ssl}INBOX";
+// $username = "gematektest@gmail.com";
+// $password = "system1837";
+// $mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
+// my_dump('$mbox', $mbox);
+
+// $my_query1 = 'SELECT * FROM test_data';
+// // $my_query2 = "INSERT $table_data 
+// // 					($myrow_uid, $myrow_date, $myrow_time, $myrow_body) 
+// // 					VALUES ('%d', '%s', '%s', '%s')";
+// $my_criteria = 'ON "1 Aug 2019"';
+// $s_result = imap_search($mbox, $my_criteria, SE_UID);
+// $uid_first = $s_result[0];
+// $uid_last = $s_result[count($s_result)-1];
+// $f_result = imap_fetch_overview($mbox,"{$uid_first}:{$uid_last}",FT_UID);
+// my_dump('$f_result', $f_result);
+
+// $subj_body;
+// foreach ($f_result as $item) {
+// 	$body = imap_body ($mbox, $item->uid, FT_UID);
+// 	$body = trim($body);
+// 	$temp = array('uid'=>$item->uid, 'subject'=>$item->subject, 'body'=>$body);
+// 	my_dump('$temp', $temp);
+// 	$subj_body[] = $temp;
+// }
+
+$db_host = 'localhost';
+$db_dbname = 'gematek_buoy';
+$pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'root', 'haomaru98');
 // $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 
-$hostname = "{imap.gmail.com:993/ssl}INBOX";
-$username = "gematektest@gmail.com";
-$password = "system1837";
-$mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
-my_dump('$mbox', $mbox);
-
-$my_query1 = 'SELECT * FROM test_data';
-// $my_query2 = "INSERT $table_data 
-// 					($myrow_uid, $myrow_date, $myrow_time, $myrow_body) 
-// 					VALUES ('%d', '%s', '%s', '%s')";
-$my_criteria = 'ON "1 Aug 2019"';
-$s_result = imap_search($mbox, $my_criteria, SE_UID);
-$uid_first = $s_result[0];
-$uid_last = $s_result[count($s_result)-1];
-$f_result = imap_fetch_overview($mbox,"{$uid_first}:{$uid_last}",FT_UID);
-my_dump('$f_result', $f_result);
-
-$subj_body;
-foreach ($f_result as $item) {
-	$body = imap_body ($mbox, $item->uid, FT_UID);
-	$body = trim($body);
-	$temp = array('uid'=>$item->uid, 'subject'=>$item->subject, 'body'=>$body);
-	my_dump('$temp', $temp);
-	$subj_body[] = $temp;
-}
+my_dump('$pdo', $pdo);
+exit;
 
 foreach ($subj_body as $value) {
 	if (insert_data_table($value) === NG) {
