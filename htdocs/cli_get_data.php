@@ -40,50 +40,29 @@ $myrow_wind_direction = 'wind_direction';
 $myrow_wind_speed = 'wind_speed';
 $myrow_air_temperature = 'air_temperature';
 
+const index_4data_array = array (
+	'site_name', 'serial_no', 'date', 'time', 'latitude', 'longitude',
+	'wind_direction', 'wind_speed', 'air_temperature',
+	'depth1', 'temperature1', 'salinity1', 'oxygen1',
+	'depth2', 'temperature2', 'salinity2', 'oxygen2',
+	'depth3', 'temperature3', 'salinity3', 'oxygen3',
+	'depth4', 'temperature4', 'salinity4', 'oxygen4',
+	'battery', 'remark', 'rssi', 'raw_data'
+);
 
-// $site_layer = array(
-// 	array(
-// 		'site_name' => 'AI51',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI52',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI53',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI54',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI56',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI57',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI60',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'AI61',
-// 		'layer' => 3
-// 	),
-// 	array(
-// 		'site_name' => 'ZI45',
-// 		'layer' => 4
-// 	),
-// )
+const index_3data_array = array (
+	'site_name', 'serial_no', 'date', 'time', 'latitude', 'longitude',
+	'wind_direction', 'wind_speed', 'air_temperature',
+	'depth1', 'temperature1', 'salinity1', 'oxygen1',
+	'depth2', 'temperature2', 'salinity2', 'oxygen2',
+	'depth3', 'temperature3', 'salinity3', 'oxygen3',
+	'battery', 'remark', 'rssi', 'raw_data'
+);
 
 const SITE_NAME_LIST = array ('ZI45', 'AI51', 'AI52', 'AI53', 'AI54', 'AI56',
 										'AI57', 'AI58', 'AI59', 'AI60', 'AI61');
 
-function insert_data_table ($mail) {
+function insert_data_table ($mail, $pdo) {
 	$search_list = array("/", "_");
 	$imsi_body1 = str_replace($search_list, " ", $mail['body']);
 	$imsi_body2 = explode(" ", $imsi_body1);
@@ -113,53 +92,70 @@ function insert_data_table ($mail) {
 		$layer = 4;
 	}
 
+	// $stmt_index1 = $pdo->prepare("SELECT * FROM $table_index WHERE site_name = :site_name");
+	$stmt_data1 = $pdo->prepare("
+						INSERT INTO {$table_index} ({$myrow_site_name}, {$myrow_uid}, {$myrow_serial_no}, {$myrow_date}, {$myrow_time})
+						VALUE (:{$myrow_site_name}, :{$myrow_uid}, :{$myrow_serial_no}, :{$myrow_date}, :{$myrow_time})
+					");
 
+	$index_array = index_3data_array;
+	if (layer === 4) {
+		$index_array = index_4data_array;
+	}
+
+	foreach ($imsi_body as $key => $item) {
+		$stmt_data1->bindValue(":{$index_array[$key]}", $item);
+	}
+	my_dump('$stmt_data1', $stmt_data1);
+	exit;
+
+
+	$stmt_data1->execute();
+	$row = $stmt_data1->fetch();
+	
+	
+	$stmt_data1 = $pdo->prepare ("INSERT");
+	my_dump('$row', $row	);
+	exit;
+	
 	return OK;
 }
 
-// $hostname = "{imap.gmail.com:993/ssl}INBOX";
-// $username = "gematektest@gmail.com";
-// $password = "system1837";
-// $mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
-// my_dump('$mbox', $mbox);
+$hostname = "{imap.gmail.com:993/ssl}INBOX";
+$username = "gematektest@gmail.com";
+$password = "system1837";
+$mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
+my_dump('$mbox', $mbox);
 
-// $my_query1 = 'SELECT * FROM test_data';
-// // $my_query2 = "INSERT $table_data 
-// // 					($myrow_uid, $myrow_date, $myrow_time, $myrow_body) 
-// // 					VALUES ('%d', '%s', '%s', '%s')";
-// $my_criteria = 'ON "1 Aug 2019"';
-// $s_result = imap_search($mbox, $my_criteria, SE_UID);
+$my_query1 = 'SELECT * FROM test_data';
+// $my_query2 = "INSERT $table_data 
+// 					($myrow_uid, $myrow_date, $myrow_time, $myrow_body) 
+// 					VALUES ('%d', '%s', '%s', '%s')";
+$my_criteria = 'ON "1 Aug 2019" SUBJECT "AI51"';
+$s_result = imap_search($mbox, $my_criteria, SE_UID);
+
 // $uid_first = $s_result[0];
 // $uid_last = $s_result[count($s_result)-1];
 // $f_result = imap_fetch_overview($mbox,"{$uid_first}:{$uid_last}",FT_UID);
 // my_dump('$f_result', $f_result);
 
-// $subj_body;
-// foreach ($f_result as $item) {
-// 	$body = imap_body ($mbox, $item->uid, FT_UID);
-// 	$body = trim($body);
-// 	$temp = array('uid'=>$item->uid, 'subject'=>$item->subject, 'body'=>$body);
-// 	my_dump('$temp', $temp);
-// 	$subj_body[] = $temp;
-// }
+$subj_body;
+foreach ($s_result as $item) {
+	$body = imap_body ($mbox, $item, FT_UID);
+	$body = trim($body);
+	$header = imap_headinfo ($mbox, iimap_msgnno($item));
+	$temp = array('uid'=>$item->uid, 'subject'=>$item->subject, 'body'=>$body);
+	my_dump('$temp', $temp);
+	$subj_body[] = $temp;
+}
 
 $db_host = 'localhost';
 $db_dbname = 'gematek_buoy';
 $pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'root', 'haomaru98');
 // $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 
-$stmt_index1 = $pdo->prepare("SELECT * FROM $table_index WHERE site_name = :site_name");
-$stmt_index1->bindValue(":site_name", 'uid');
-$stmt_index1->execute();
-$row = $stmt_index1->fetch();
-
-
-$stmt_data1 = $pdo->prepare ("INSERT");
-my_dump('$row', $row	);
-exit;
-
 foreach ($subj_body as $value) {
-	if (insert_data_table($value) === NG) {
+	if (insert_data_table($value, $pdo) === NG) {
 		continue;
 	}
 
