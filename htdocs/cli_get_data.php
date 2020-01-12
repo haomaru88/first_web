@@ -148,7 +148,14 @@ $db_dbname = 'gematek_buoy';
 $pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'root', 'haomaru98');
 // $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 
-my_dump('$pdo', $pdo);
+$stmt_index1 = $pdo->prepare("SELECT * FROM $table_index WHERE site_name = :site_name");
+$stmt_index1->bindValue(":site_name", 'uid');
+$stmt_index1->execute();
+$row = $stmt_index1->fetch();
+
+
+$stmt_data1 = $pdo->prepare ("INSERT");
+my_dump('$row', $row	);
 exit;
 
 foreach ($subj_body as $value) {
