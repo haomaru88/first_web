@@ -7,7 +7,7 @@ define ("DEBUG", "ON");
 
 function my_dump ($item, $data) {
 	if(DEBUG === "ON") {
-		echo $item . " : ";
+		echo date('Y-m-d H:i:s = ') . $item . " ";
 		var_dump($data).PHP_EOL;
 	}
 }
@@ -168,7 +168,7 @@ function insert_data_table ($mail, $pdo) {
 
 	$r_result = $stmt_data1->execute();
 	my_dump('$mail[\'body\']', $mail['body']);
-	echo "INSERT ($table_data) - ";
+	echo date('Y-m-d H:i:s : ') . "INSERT ($table_data) - ";
 	print_r ($stmt_data1->errorInfo()[0]);
 	echo PHP_EOL;
 
@@ -179,7 +179,7 @@ function insert_data_table ($mail, $pdo) {
 	$stmt_data2 = $pdo->prepare("SELECT * FROM {$table_index} WHERE {$col}='{$site_name}'");
 	$result = $stmt_data2->execute();
 
-	echo "SELECT ($table_index) - ";
+	echo date('Y-m-d H:i:s : ') . "SELECT ($table_index) - ";
 	print_r ($stmt_data2->errorInfo()[0]);
 	echo PHP_EOL;
 
@@ -216,13 +216,12 @@ function insert_data_table ($mail, $pdo) {
 
 	$r_result = $stmt_data2->execute();
 
-	echo "UPDATE ($table_index) - ";
+	echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
 	print_r ($stmt_data2->errorInfo()[0]);
 	echo PHP_EOL;
 
 
 	// $table_index에서 'site_name'이 'uid'를 찾는다.
-	// 이 레코드는 Mail의 uid를 저장하여 마지막 uid를 얻을 수 있다.
 	$stmt_data2 = $pdo->prepare("SELECT * FROM {$table_index} WHERE site_name='uid'");
 	$result = $stmt_data2->execute();
 	$row = $stmt_data2->fetchAll();
@@ -235,14 +234,12 @@ function insert_data_table ($mail, $pdo) {
 		exit;
 	}
 
-
-
-
+	// Mail의 uid를 갱신하여 Back Task에서 uid를 이용하여 New Mail이 수신되었는지 판단한다.
 	$id = $row[0]['id'];
 	$stmt_data2 = $pdo->prepare("UPDATE $table_index SET last_uid={$mail['uid']} WHERE id=$id");
 	$stmt_data2->execute();
 	
-	echo "UPDATE ($table_index) - ";
+	echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
 	print_r ($stmt_data2->errorInfo()[0]);
 	echo PHP_EOL;
 
@@ -251,7 +248,7 @@ function insert_data_table ($mail, $pdo) {
 
 
 
-
+$start_time = time();
 
 $hostname = "{imap.gmail.com:993/ssl}INBOX";
 $username = "nfrdi.me02@gmail.com";
@@ -261,8 +258,8 @@ $password = "djwkdghksrud2510";
 $mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
 my_dump('$mbox', $mbox);
 
-// $my_criteria = 'ON "1 Aug 2019" SUBJECT "AI56"';
-$my_criteria = 'BEFORE "2 Aug 2019" SINCE "1 Aug 2019"';
+$my_criteria = 'ON "1 Aug 2019" SUBJECT "AI56"';
+// $my_criteria = 'BEFORE "3 Aug 2019" SINCE "1 Aug 2019"';
 $s_result = imap_search($mbox, $my_criteria, SE_UID);
 
 $subj_body;
@@ -288,7 +285,7 @@ foreach ($s_result as $item) {
 
 $db_host = 'localhost';
 $db_dbname = 'gematek_buoy';
-$pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'root', 'haomaru98');
+$pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'juno', 'haomaru98');
 // $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 
 foreach ($subj_body as $value) {
@@ -304,4 +301,8 @@ foreach ($subj_body as $value) {
 
 imap_close($mbox);
 
+$end_time = time();
+$run_time = $end_time - $start_time;
+$interval  = date_diff(date("Y-m-d H:i:s",$start_time), date("Y-m-d H:i:s",$end_time));
+echo PHP_EOL . "Run Time : " . $interval->format('%h') . PHP_EOL;
 ?>
