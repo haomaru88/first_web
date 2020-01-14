@@ -1,7 +1,4 @@
 <?php
-//	$new_line = '<br>';
-	$new_line = "\r\n";
-
 	function my_dump ($data) {
 		var_dump($data);
 		echo  "\r\n";
@@ -29,10 +26,10 @@
 
 		// Again, do not do this on a public site, but we'll show you how
 		// to get the error information
-		echo "Error: Our query failed to execute and here is why: $new_line";
-		echo "Query: " . $sql . "$new_line";
-		echo "Errno: " . $mysqli->errno . "$new_line";
-		echo "Error: " . $mysqli->error . "$new_line";
+		echo "Error: Our query failed to execute and here is why: " . PHP_EOL;
+		echo "Query: " . $sql . PHP_EOL;
+		echo "Errno: " . $mysqli->errno . PHP_EOL;
+		echo "Error: " . $mysqli->error . PHP_EOL;
 		exit;
 	}
 
@@ -40,7 +37,7 @@
 		// Oh, no rows! Sometimes that's expected and okay, sometimes
 		// it is not. You decide. In this case, maybe actor_id was too
 		// large?
-		echo "We could not find a match for Next UID, sorry about that. Please try again.$new_line";
+		echo "We could not find a match for Next UID, sorry about that. Please try again." . PHP_EOL;
 		exit;
 	}
 
@@ -64,8 +61,8 @@
 
 	// 저장되었던 uid보다 첫 메일의 uid 보다 크면 새 메일이 없는것으로 판단한다.
 	if ($result[0]->uid < $uid) {
-		printf ("uid:{$uid}  result->uid:{$result[0]->uid} $new_line");
-		echo "No New Messages!$new_line";
+		echo "uid:{$uid}  result->uid:{$result[0]->uid} " . PHP_EOL;
+		echo "No New Messages!" . PHP_EOL;
 		$sql_result->free();
 		$mysqli->close();
 		exit;
@@ -98,8 +95,8 @@
 		$sql_result = $mysqli->query($t_query);
 		if (!$sql_result) {
 			echo 'ERROR!';
-			echo "Errno: " . $mysqli->errno . "$new_line";
-			echo "Error: " . $mysqli->error . "$new_line";
+			echo "Errno: " . $mysqli->errno . PHP_EOL;
+			echo "Error: " . $mysqli->error . PHP_EOL;
 		}
 		else {
 			console_log($sql_result);
@@ -111,11 +108,11 @@
 	$sql_result = $mysqli->query($my_query3);
 	if (!$sql_result) {
 		echo 'ERROR!';
-		echo "Errno: " . $mysqli->errno . "$new_line";
-		echo "Error: " . $mysqli->error . "$new_line";
+		echo "Errno: " . $mysqli->errno . PHP_EOL;
+		echo "Error: " . $mysqli->error . PHP_EOL;
 	}
 
-	printf("OK!!!$new_line");
+	echo ("OK!!!" . PHP_EOL);
 
 	imap_close($mbox);
 	//	$sql_result->free();
