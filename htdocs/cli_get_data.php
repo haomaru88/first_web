@@ -160,6 +160,7 @@ function insert_data_table ($mail, $pdo) {
 		$stmt_data1->bindValue (":salinity4", '0');
 		$stmt_data1->bindValue (":oxygen4", '0');
 	}
+
 	$stmt_data1->bindValue (":receive_date", $mail['r_date']);
 	$stmt_data1->bindValue (":body", $mail['body']);
 	$stmt_data1->bindValue (":uid", $mail['uid']);
@@ -196,6 +197,7 @@ function insert_data_table ($mail, $pdo) {
 	}
 
 
+	// $table_index 에 해당하는 사이트의 레코드에 데이터를 업데이트한다.
 	$sql3 = '';
 	foreach ($index_table_array as $key => $value) {
 		$sql3 = $sql3 . $value . '=:' . $value . ', ';
@@ -225,6 +227,11 @@ function insert_data_table ($mail, $pdo) {
 	$stmt_data2 = $pdo->prepare("SELECT * FROM {$table_index} WHERE site_name='uid'");
 	$result = $stmt_data2->execute();
 	$row = $stmt_data2->fetchAll();
+
+	echo date('Y-m-d H:i:s : ') . "SELECT ($table_index) - ";
+	print_r ($stmt_data2->errorInfo()[0]);
+	echo PHP_EOL;
+
 	$cnt = count($row);
 	if (!$result) {
 		echo "ERROR : Not found ROW (site_name = 'uid')!!!" . PHP_EOL;
@@ -234,14 +241,17 @@ function insert_data_table ($mail, $pdo) {
 		exit;
 	}
 
-	// Mail의 uid를 갱신하여 Back Task에서 uid를 이용하여 New Mail이 수신되었는지 판단한다.
-	$id = $row[0]['id'];
-	$stmt_data2 = $pdo->prepare("UPDATE $table_index SET last_uid={$mail['uid']} WHERE id=$id");
-	$stmt_data2->execute();
-	
-	echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
-	print_r ($stmt_data2->errorInfo()[0]);
-	echo PHP_EOL;
+	// 현재 Mail의 uid 보다 DB에 저장된 uid가 크면 DB에 현재 Mail의 uid를 저장한다.
+	if ($row[0]['last_uid'] < $mail['uid']) {
+		// Mail의 uid를 갱신하여 Back Task에서 uid를 이용하여 New Mail이 수신되었는지 판단할 수 있도록 한다.
+		$id = $row[0]['id'];
+		$stmt_data2 = $pdo->prepare("UPDATE $table_index SET last_uid={$mail['uid']} WHERE id=$id");
+		$stmt_data2->execute();
+		
+		echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
+		print_r ($stmt_data2->errorInfo()[0]);
+		echo PHP_EOL;
+	}
 
 	return OK;
 }
@@ -258,8 +268,8 @@ $password = "djwkdghksrud2510";
 $mbox = imap_open($hostname, $username, $password) or die("can't connect: " . imap_last_error());
 my_dump('$mbox', $mbox);
 
-$my_criteria = 'ON "1 Aug 2019" SUBJECT "AI56"';
-// $my_criteria = 'BEFORE "3 Aug 2019" SINCE "1 Aug 2019"';
+// $my_criteria = 'ON "1 Aug 2019" SUBJECT "AI56"';
+$my_criteria = 'BEFORE "2019-12-20" SINCE "2019-4-18"';
 $s_result = imap_search($mbox, $my_criteria, SE_UID);
 
 $subj_body;
@@ -269,7 +279,7 @@ foreach ($s_result as $item) {
 	$header = imap_headerinfo ($mbox, imap_msgno($mbox, $item));
 	$subject = trim ($header->subject);
 
-	// Gmail에서 PDT 시간대의 날짜와 시간을 받아서 한국시간대 포멧으로 변환한다.
+	// Gmail에서 PDT 시간대의 날짜와 시간을 받아서 한국시간대로 변환한다.
 	$r_date = strtotime($header->date);
 	$r_date = date('Y-m-d H:i:s', $r_date);
 
@@ -281,12 +291,15 @@ foreach ($s_result as $item) {
 
 	$temp = array('uid'=>$item, 'subject'=>$subject, 'body'=>$body2, 'r_date'=>$r_date);
 	$subj_body[] = $temp;
+
+
 }
+imap_close($mbox);
+
 
 $db_host = 'localhost';
 $db_dbname = 'gematek_buoy';
 $pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'juno', 'haomaru98');
-// $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 
 foreach ($subj_body as $value) {
 	if (insert_data_table($value, $pdo) === NG) {
@@ -299,10 +312,10 @@ foreach ($subj_body as $value) {
 
 
 
-imap_close($mbox);
-
 $end_time = time();
-$run_time = $end_time - $start_time;
-$interval  = date_diff(date("Y-m-d H:i:s",$start_time), date("Y-m-d H:i:s",$end_time));
-echo PHP_EOL . "Run Time : " . $interval->format('%h') . PHP_EOL;
+
+$st = new DateTime ("@$start_time");
+$et = new DateTime ("@$end_time");
+$interval  = date_diff($st, $et);
+echo PHP_EOL . "Run Time : " . $interval->format('%h:%i:%s') . PHP_EOL;
 ?>
