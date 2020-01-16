@@ -1,7 +1,12 @@
 <?php
+// 모든 메시지와 경고를 표시한다.
+error_reporting(E_ALL);
 
 define ("DEBUG", "ON");
 // define ("DEBUG", "OFF");
+
+define ("OK", 0);
+define ("NG", -1);
 
 function my_dump ($item, $data) {
 	if(DEBUG === "ON") {
@@ -34,16 +39,52 @@ const index_3data_array = array (
 );
 
 $index_table_array = array (
-	'last_uid', 'site_name', 'table_name', 'layer', 'last_data_id', 'update_datetime', 'remark'
+	'last_uid', 'site_name', 'table_name', 'layer', 'last_data_id', 'remark'
 );
 
 const SITE_NAME_LIST = array ('ZI45', 'AI51', 'AI52', 'AI53', 'AI54', 'AI56',
 										'AI57', 'AI58', 'AI59', 'AI60', 'AI61');
 
+$table_index = 'table_index';
+
+function sql_update_last_uid ($c_uid, $pdo)
+{
+	global $table_index;
+	global $index_table_array;
+
+	// $table_index에서 'site_name'이 'uid'를 찾는다.
+	$sql = "SELECT * FROM {$table_index} WHERE site_name='uid'";
+	$stmt_data = $pdo->prepare($sql);
+	$result = $stmt_data->execute();
+	my_info ("PDO->Execute() - $sql - " . $stmt_data->errorInfo()[0]);
+	$row = $stmt_data->fetchAll();
+ 
+	$cnt = count($row);
+	if (!$result) {
+		echo "ERROR : Not found ROW (site_name = 'uid')!!!" . PHP_EOL;
+		exit;
+	} elseif (1 < $cnt) {
+		echo "ERROR : Too many ROW ({$site_name}) in Table({$table_index}) , Count = {$cnt}!!!" . PHP_EOL;
+		exit;
+	}
+
+	// 현재 Mail의 uid 보다 DB에 저장된 uid가 크면 DB에 현재 Mail의 uid를 저장한다.
+	if ($row[0][$index_table_array[0]] < $c_uid) {
+		// Mail의 uid를 갱신하여 Back Task에서 uid를 이용하여 New Mail이 수신되었는지 판단할 수 있도록 한다.
+		$id = $row[0]['id'];
+		$sql = "UPDATE $table_index SET last_uid={$c_uid} WHERE id=$id";
+		$stmt_data = $pdo->prepare($sql);
+		$stmt_data->execute();
+		my_info ("PDO->Execute() - $sql - " . $stmt_data->errorInfo()[0]);
+	}
+
+}
+
 function insert_data_table ($mail, $pdo) {
 	global $index_table_array;
 
-	$table_index = 'table_index';
+	global $table_index;
+
 	$table_data = 'table_data';
 	$myrow_id = 'id';
 	$myrow_last_uid = 'last_uid';
@@ -79,8 +120,12 @@ function insert_data_table ($mail, $pdo) {
 	$site_name = $imsi_body2[0];
 	$length = strlen($site_name);
 
+	// 현재 메일의 uid를 DB에 UPDATE한다.
+	sql_update_last_uid ($mail['uid'], $pdo);
+
 	// 메일 본문의 첫 문자열의 길이가 5보다 크면 에러
 	if (5 < $length || empty($site_name)) {
+		my_dump('Invalid Site Name!!! $site_name', $site_name);
 		return NG;
 	}
 
@@ -118,8 +163,10 @@ function insert_data_table ($mail, $pdo) {
 	// my_dump('$sql1', $sql1);
 	// my_dump('$sql2', $sql2);
 
+
 	// $table_data 에 수신된 메일을 저장한다.
-	$stmt_data1 = $pdo->prepare("INSERT INTO {$table_data} ({$sql1}) VALUE ({$sql2})");
+	$sql3 = "INSERT INTO {$table_data} ({$sql1}) VALUE ({$sql2})";
+	$stmt_data1 = $pdo->prepare($sql3);
 	// my_dump('$stmt_data1', $stmt_data1);
 
 	foreach ($imsi_body2 as $key => $item) {
@@ -142,21 +189,18 @@ function insert_data_table ($mail, $pdo) {
 	$stmt_data1->bindValue (":subject", $mail['subject']);
 
 	$r_result = $stmt_data1->execute();
-	my_dump('$mail[\'body\']', $mail['body']);
-	echo date('Y-m-d H:i:s : ') . "INSERT ($table_data) - ";
-	print_r ($stmt_data1->errorInfo()[0]);
-	echo PHP_EOL;
+	my_info ('$mail[\'body\'] = ' . $mail['body']);
+	my_info ('PDO->Execute() - ' . $sql3 . ' - ' . $stmt_data1->errorInfo()[0]);
 
 	$taskIdx = $pdo->lastInsertId();
 
 	// 수신된 메일의 사이트가 $table_index에 검색하고 없거나 복수이면 ERROR 처리.
 	$col = $index_table_array[1];
-	$stmt_data2 = $pdo->prepare("SELECT * FROM {$table_index} WHERE {$col}='{$site_name}'");
+	$sql3 = "SELECT * FROM {$table_index} WHERE {$col}='{$site_name}'";
+	$stmt_data2 = $pdo->prepare($sql3);
 	$result = $stmt_data2->execute();
 
-	echo date('Y-m-d H:i:s : ') . "SELECT ($table_index) - ";
-	print_r ($stmt_data2->errorInfo()[0]);
-	echo PHP_EOL;
+	my_info ('PDO->Execute() - ' . $sql3 . ' - ' . $stmt_data2->errorInfo()[0]);
 
 	$row = $stmt_data2->fetchAll();
 
@@ -170,7 +214,6 @@ function insert_data_table ($mail, $pdo) {
 		exit;
 	}
 
-
 	// $table_index 에 해당하는 사이트의 레코드에 데이터를 업데이트한다.
 	$sql3 = '';
 	foreach ($index_table_array as $key => $value) {
@@ -181,56 +224,29 @@ function insert_data_table ($mail, $pdo) {
 	$sql4 = "UPDATE {$table_index} SET {$sql3}";
 	$stmt_data2 = $pdo->prepare("$sql4");
 
-	$stmt_data2->bindValue(":{$index_table_array[0]}", $id, PDO::PARAM_INT);
+	$stmt_data2->bindValue(":{$index_table_array[0]}", $mail['uid'], PDO::PARAM_INT);
 	$stmt_data2->bindValue(":{$index_table_array[1]}", $site_name, PDO::PARAM_STR);
 	$stmt_data2->bindValue(":{$index_table_array[2]}", $table_data, PDO::PARAM_STR);
 	$stmt_data2->bindValue(":{$index_table_array[3]}", $layer, PDO::PARAM_INT);
 	$stmt_data2->bindValue(":{$index_table_array[4]}", $taskIdx, PDO::PARAM_INT);
-	$stmt_data2->bindValue(":{$index_table_array[5]}", date('Y/m/d H:i:s', time()));
-	$stmt_data2->bindValue(":$index_table_array[6]", ' ', PDO::PARAM_STR);
+	// $stmt_data2->bindValue(":{$index_table_array[5]}", date('Y/m/d H:i:s', time()));
+	$stmt_data2->bindValue(":$index_table_array[5]", ' ', PDO::PARAM_STR);
 	$stmt_data2->bindValue(":rid", $id, PDO::PARAM_INT);
 
 	$r_result = $stmt_data2->execute();
-
-	echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
-	print_r ($stmt_data2->errorInfo()[0]);
-	echo PHP_EOL;
-
-
-	// $table_index에서 'site_name'이 'uid'를 찾는다.
-	$stmt_data2 = $pdo->prepare("SELECT * FROM {$table_index} WHERE site_name='uid'");
-	$result = $stmt_data2->execute();
-	$row = $stmt_data2->fetchAll();
-
-	echo date('Y-m-d H:i:s : ') . "SELECT ($table_index) - ";
-	print_r ($stmt_data2->errorInfo()[0]);
-	echo PHP_EOL;
-
-	$cnt = count($row);
-	if (!$result) {
-		echo "ERROR : Not found ROW (site_name = 'uid')!!!" . PHP_EOL;
-		exit;
-	} elseif (1 < $cnt) {
-		echo "ERROR : Too many ROW ({$site_name}) , Count = {$cnt}!!!" . PHP_EOL;
-		exit;
-	}
-
-	// 현재 Mail의 uid 보다 DB에 저장된 uid가 크면 DB에 현재 Mail의 uid를 저장한다.
-	if ($row[0]['last_uid'] < $mail['uid']) {
-		// Mail의 uid를 갱신하여 Back Task에서 uid를 이용하여 New Mail이 수신되었는지 판단할 수 있도록 한다.
-		$id = $row[0]['id'];
-		$stmt_data2 = $pdo->prepare("UPDATE $table_index SET last_uid={$mail['uid']} WHERE id=$id");
-		$stmt_data2->execute();
-		
-		echo date('Y-m-d H:i:s : ') . "UPDATE ($table_index) - ";
-		print_r ($stmt_data2->errorInfo()[0]);
-		echo PHP_EOL;
-	}
+	my_info ('PDO->Execute() - ' . $sql4 . ' - ' . $stmt_data2->errorInfo()[0]);
 
 	return OK;
 }
 
-my_info('START');
+
+
+
+
+
+
+
+
 
 $table_index = 'table_index';
 $table_data = 'table_data';
@@ -242,14 +258,18 @@ $myrow_date = 'date';
 $myrow_time = 'time';
 $myrow_body = 'body';
 
+my_info ("Start mysqli");
 $mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
 if($mysqli->connect_error) {
 	my_info ("can't connect MySQL : (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	exit;
 }
+my_info ("Done  mysqli");
 
 $sql = "SELECT * FROM {$table_index} WHERE $myrow_site='uid'";
+my_info ('MySQLi->query($sql) - ' . $sql);
 $sql_result = $mysqli->query($sql);
+my_info ("Errno = $mysqli->errno");
 if (!$sql_result) {
 	my_info ("Sorry, the website is experiencing problems.");
 	my_info ("Error: Our query failed to execute and here is why: ");
@@ -268,9 +288,8 @@ if ($sql_result->num_rows !== 1) {
 // DB에서 uid 정보를 얻어온다.
 $row = $sql_result->fetch_assoc();
 
-my_info('$sql_result');
+$hostname = "{imap.gmail.com:993/ssl/readonly}INBOX";
 
-$hostname = "{imap.gmail.com:993/ssl}INBOX";
 $username = "gematektest@gmail.com";
 $password = "system1837";
 
@@ -284,40 +303,82 @@ $password = "system1837";
 //	$username = "haomaru88@gmail.com";
 //	$password = "wnsghglaso98!";
 
+my_info ("Start IMAP Open");
 $mbox = imap_open($hostname, $username, $password) or die("can't connect MySQL: " . imap_last_error());
+my_info ("Done  IMAP Open");
 
-// 지정된 메일함에서 uid를 사용하여 검색한다.
-//	@ uid에 1을 더하여 next uid를 검색 조건으로 사용하면 imap_fetch_overview() 에서 무한루프에 빠진다.
-$uid = $row[$myrow_last_uid];
+// 마지막에 얻은 Mail Message의 uid를 가져와 1을 더한다. (Next UID 생성)
+$uid = $row[$myrow_last_uid] + 1;
+
+my_info ("Start IMAP_STATUS()");
+$status = imap_status ($mbox, $hostname, SA_ALL);
+my_info ("Done  IMAP_STATUS()");
+
+// uidvalidity 값이 1이 아니면 종료한다.
+if ($status->uidvalidity !== 1) {
+	my_info ('Invalid uidvalidity : $status->uidvalidity = ' . $status->uidvalidity);
+	exit;
+}
+
+// $uid 와 현재 메일서버에서 가져온 $status->uidnext 를 이용하여 New Message가 있는지 검색한다.
+$new_start_uid = 0;
+for ($ii = $uid; $ii < $status->uidnext; $ii++) {
+
+	// imap_msgno() 를 이용하여 해당 uid에 대한 Mail Message가 존재 하는지 검사한다.
+	// 이 경우, 신규 메일주소를 사용하면 에러의 소지가 있다.
+	$msgno = imap_msgno ($mbox, $ii);
+	if ($msgno !== 0) {
+		my_info ('$uid=' . $ii . ', msgno=' . $msgno . ' : true');
+		$new_start_uid = $ii;
+		$ii = $status->uidnext;
+	}
+	else {
+		my_info ('$uid=' . $ii . ', msgno=' . $msgno . ' : false');
+	}
+}
+
+// New Message가 없는가?
+if ($new_start_uid === 0) {
+	my_info ('$uid = ' . $uid);
+	my_info ("New Message Not Founded!");
+	$sql_result->free();
+	$mysqli->close();
+	imap_close($mbox);
+	exit;
+}
+
+$uid = $new_start_uid;
 
 // 저장되었던 uid로 검색 범위를 지정하여 메일를 검색한다.
+my_info ("IMAP Fetching Overview...");
 $result = imap_fetch_overview($mbox,"{$uid}:*",FT_UID);
-
+my_info ("IMAP Fetch Overview Done.");
 $sql_result->free();
 $mysqli->close();
 
-// 마지막 uid 로 검색하였으므로 새메일이 있다면 검색된 메일 갯수가 2개 이상이어야 한다.
-if (count($result) <= 1) {
+// 있을 수 없는 조건이지만 삭제하지 않음.
+if (count($result) < 1) {
 	my_info ('$uid=' . $uid . ', $result[0]->uid='. $result[0]->uid);
 	my_info ("No New Messages!");
 	exit;
 }
 
 // 첫번째 요소를 삭제한다. (첫번째 요소는 이전에 수신된 mail 이다)
-array_splice ($result, 0, 1);
+// array_splice ($result, 0, 1);
 
 $db_host = 'localhost';
 $db_dbname = 'gematek_buoy';
+my_info ("Start new PDO");
 $pdo = new PDO ("mysql:host=$db_host;dbname=$db_dbname;", 'juno', 'haomaru98');
+my_info ("Done new PDO");
 
-my_dump ('$result', $result);
 foreach ($result as $key => $value) {
 	$body = imap_body ($mbox, $value->uid, FT_UID);
 	$body = trim ($body);
 	$header = imap_headerinfo ($mbox, imap_msgno($mbox, $value->uid));
 	$subject = trim ($header->subject);
 
-	// Gmail에서 PDT 시간대의 날짜와 시간을 받아서 한국시간대로 변환한다.
+	// Message의 date가 PDT 시간대이여서 한국시간대로 변환한다.
 	$r_date = strtotime($header->date);
 	$r_date = date('Y-m-d H:i:s', $r_date);
 
@@ -325,18 +386,17 @@ foreach ($result as $key => $value) {
 	$body1 = trim($body);
 	$del_string = array ("\r", "\n", "=", ":");
 	$body2 = str_replace($del_string, "", $body1);
+
 	$argv = array ('uid'=>$value->uid, 'subject'=>$subject, 'body'=>$body2, 'r_date'=>$r_date);
-
-	my_dump ('$body2', $body2);
-
-	insert_data_table ($argv, $pdo);
+	if (insert_data_table ($argv, $pdo) === NG) {
+		continue;
+	}
 }
 
 
-my_info ("OK!!!");
+my_info ("Mission Complete!!!");
 
 imap_close($mbox);
-//	$sql_result->free();
-$mysqli->close();
+
 
 ?>
