@@ -290,11 +290,11 @@ $row = $sql_result->fetch_assoc();
 
 $hostname = "{imap.gmail.com:993/ssl/readonly}INBOX";
 
-$username = "gematektest@gmail.com";
-$password = "system1837";
+// $username = "gematektest@gmail.com";
+// $password = "system1837";
 
-// $username = "nfrdi.me02@gmail.com";
-// $password = "djwkdghksrud2510";
+$username = "nfrdi.me02@gmail.com";
+$password = "djwkdghksrud2510";
 
 // $username = "testhaomaru@gmail.com";
 // $password = "haomaru98";

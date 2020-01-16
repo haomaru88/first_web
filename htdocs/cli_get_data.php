@@ -14,7 +14,7 @@ function my_dump ($item, $data) {
 }
 
 function my_info($data) {
-	echo date('[Y-m-d H:i:s] INFO = ') . $data . PHP_EOL;
+	echo date('[Y-m-d H:i:s]') . ' INFO = ' . $data . PHP_EOL;
 }
 
 $table_index = 'table_index';
@@ -110,6 +110,9 @@ foreach ($s_result as $item) {
 	$temp = array('uid'=>$item, 'subject'=>$subject, 'body'=>$body2, 'r_date'=>$r_date);
 	$subj_body[] = $temp;
 
+	my_dump ('$header', $header);
+	my_info (imap_uid ($mbox, $header->Msgno));
+	exit;
 
 }
 imap_close($mbox);
