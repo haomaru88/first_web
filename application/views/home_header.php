@@ -32,11 +32,11 @@
       }
 
       .sidebar-menu .sidebar-header, .sidebar-menu {
-         background-color: #542a00;
+         background-color: #0F4C81;
       }
 
       li {
-         border-bottom: 1px solid #505050;
+         border-bottom: 1px solid #0F4C81;
       }
 
       .nav-btn {
@@ -54,7 +54,7 @@
       }
 
       .table-header-bg {
-         background-color: #164472;
+         background-color: #0F4C81;
          font-size: 0.95rem;
       }
 
@@ -71,6 +71,7 @@
       }
 
       .header-title {
+         color : #353c42;
          font-size : 1rem;
       }
    </style>
