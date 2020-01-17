@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_monitor extends CI_Controller
 {
-	public function index(){
+	public function index() {
 		$layer1 = array('depth1' => 1.1, 'temperature1' => 25.1, 'salinity1' => 33.1, 'oxygen1' => 9.1);
 		$layer2 = array('depth2' => 2.1, 'temperature2' => 26.1, 'salinity2' => 34.1, 'oxygen2' => 9.2);
 		$layer3 = array('depth3' => 3.1, 'temperature3' => 27.1, 'salinity3' => 35.1, 'oxygen3' => 9.3);
@@ -61,7 +61,7 @@ class Web_monitor extends CI_Controller
 
 		$imsi['buoy_data'] = array($info5, $info1, $info2, $info3, $info4, $info6);
 		
-//		$this->load->model('home_model');
+		// $this->load->model('home_model');
 		
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
@@ -69,5 +69,3 @@ class Web_monitor extends CI_Controller
 		$this->load->view('home_footer');
    }
 }
-
-
