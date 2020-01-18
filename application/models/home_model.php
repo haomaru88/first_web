@@ -39,8 +39,8 @@ class Home_model extends CI_Model
 
       $this->table = 'table_data';
       $this->table_index = 'table_index';
-
       $this->mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
+      
    }
 
    /*
