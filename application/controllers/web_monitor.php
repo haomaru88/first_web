@@ -67,5 +67,19 @@ class Web_monitor extends CI_Controller
 		$this->load->view('home_body', $imsi);
 		$this->load->view('home_inner_footer');
 		$this->load->view('home_footer');
-   }
+	}
+	
+	function get($id){
+		echo '
+		<!DOCTYPE html>
+		<html>
+			 <head>
+				  <meta charset="utf-8"/>
+			 </head>
+			 <body>
+				  토픽 '.$id.'
+			 </body>
+		</html>
+		';
+  }
 }

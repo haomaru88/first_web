@@ -1,7 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-//	$new_line = '<br>';
-$new_line = "\r\n";
 
 class Home_model extends CI_Model
 {
