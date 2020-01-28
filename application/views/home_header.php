@@ -36,7 +36,7 @@
       }
 
       li {
-         border-bottom: 1px solid #0F4C81;
+         border-bottom: 1px solid;
       }
 
       .nav-btn {
