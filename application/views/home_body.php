@@ -29,8 +29,27 @@ function print_table_row($para)
                               echo $item;
                               echo '</td>';
                            }
-                           echo '</td>';
+                           echo '</tr>';
                         }
+                     echo "</tbody>";
+                  echo "</table>";
+
+                  echo "<table class='table text-center'>";
+                     echo "<thead class='table-header-bg' style='background-color:gray'>";
+                        echo "<tr class='text-white'>";
+                           echo "<th scope='col'> Battery</th>";
+                           echo "<th scope='col'> WindDirection</th>";
+                           echo "<th scope='col'> WindSpeed</th>";
+                           echo "<th scope='col'> AirTemp.</th>";
+                        echo "</tr>";
+                     echo "</thead>";
+                     echo "<tbody>";
+                        echo "<tr>";
+                           echo "<td> 12.6 </td>";
+                           echo "<td> 271.3 </td>";
+                           echo "<td> 4.7 </td>";
+                           echo "<td> 19.5 </td>";
+                        echo "</tr>";
                      echo "</tbody>";
                   echo "</table>";
                echo "</div>";
@@ -122,3 +141,12 @@ function print_sidebar_menu($para) {
          </div>
       </div>
    </div>
+<?php
+   require 'home_inner_footer.php';
+   require 'home_footer.php';
+?>
+</div>
+
+</body>
+
+

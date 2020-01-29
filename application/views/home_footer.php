@@ -15,5 +15,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- others plugins -->
 <script src="/assets/js/plugins.js"></script>
 <script src="/assets/js/scripts.js"></script>
-</body>
+<!-- </body> -->
 </html>

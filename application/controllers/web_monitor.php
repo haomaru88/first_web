@@ -65,8 +65,8 @@ class Web_monitor extends CI_Controller
 		
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
-		$this->load->view('home_inner_footer');
-		$this->load->view('home_footer');
+		// $this->load->view('home_inner_footer');
+		// $this->load->view('home_footer');
 	}
 	
 	function get($id){
@@ -81,5 +81,5 @@ class Web_monitor extends CI_Controller
 			 </body>
 		</html>
 		';
-  }
+	}
 }
