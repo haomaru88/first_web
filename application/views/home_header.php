@@ -63,7 +63,7 @@
       }
 
       .footer-area {
-         padding: 10px 19px;
+         /* padding: 10px 19px; */
       }
 
       .main-content {
