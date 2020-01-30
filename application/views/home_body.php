@@ -73,7 +73,7 @@ function print_sidebar_menu($para) {
             echo "<nav>";
                echo "<ul class='metismenu' id='menu'>";
                   echo "<li>";
-                     echo "<a href='javascript:void(0)' aria-expanded='true'><i class='ti-bar-chart'></i><span>Site Data</span></a>";
+                     echo "<a href='javascript:void(0)' aria-expanded='true'><i class='ti-flag'></i><span>Site Data</span></a>";
                      echo "<ul class='collapse'>";
                      foreach ($para as $item) {
                         echo "<li><a href='javascript:void(0)'>{$item['site_name']}</a></li>";
