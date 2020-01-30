@@ -7,14 +7,15 @@ function print_table_row($para)
    echo "<div class='col-lg-4 mt-5'>";
       echo "<div class='card'>";
          echo "<div class='card-body'>";
-            echo "<span class='header-title' style='margin-left: 1rem'>{$para['site_name']}</span>";
-            echo "<span class='header-title pull-right' style='margin-left: 1rem; margin-right: 1rem'>{$para['battery']}V</span>";
-            echo "<span class='header-title pull-right' style='margin-left: 1rem'>{$para['time']}</span>";
+            echo "<span class='header-title' style='margin-left: 1em'>{$para['site_name']}</span>";
+            // echo "<span class='header-title pull-right' style='margin-left: 1em; margin-right: 1em'>{$para['battery']}V</span>";
+            echo "<span class='header-title pull-right' style='margin-left: 1em; margin-right: 1em'>{$para['time']}</span>";
             echo "<span class='header-title pull-right'>{$para['date']}</span>";
             echo "<div class='single-table'>";
                echo "<div class='table-responsive'>";
                   echo "<table class='table text-center'>";
-                     echo "<thead class='text-uppercase table-header-bg'>";
+                     echo "<thead class='table-header-bg'>";
+                     // echo "<thead class='text-uppercase table-header-bg'>";
                         echo "<tr class='text-white'>";
                            foreach ($title as $item) {
                               echo "<th scope='col'>{$item}</th>";
@@ -34,8 +35,8 @@ function print_table_row($para)
                      echo "</tbody>";
                   echo "</table>";
 
-                  echo "<table class='table text-center'>";
-                     echo "<thead class='table-header-bg' style='background-color:gray'>";
+                  echo "<table class='table text-center' style='margin-top:1em'>";
+                     echo "<thead class='table-header-bg'>";
                         echo "<tr class='text-white'>";
                            echo "<th scope='col'> Battery</th>";
                            echo "<th scope='col'> WindDirection</th>";
@@ -45,7 +46,7 @@ function print_table_row($para)
                      echo "</thead>";
                      echo "<tbody>";
                         echo "<tr>";
-                           echo "<td> 12.6 </td>";
+                           echo "<td class='blink'> 12.6 </td>";
                            echo "<td> 271.3 </td>";
                            echo "<td> 4.7 </td>";
                            echo "<td> 19.5 </td>";
@@ -72,10 +73,10 @@ function print_sidebar_menu($para) {
             echo "<nav>";
                echo "<ul class='metismenu' id='menu'>";
                   echo "<li>";
-                     echo "<a href='javascript:void(0)' aria-expanded='true'><i class='ti-flag'></i><span>Table Data</span></a>";
+                     echo "<a href='javascript:void(0)' aria-expanded='true'><i class='ti-bar-chart'></i><span>Site Data</span></a>";
                      echo "<ul class='collapse'>";
                      foreach ($para as $item) {
-                        echo "<li><a href=''>{$item['site_name']}</a></li>";
+                        echo "<li><a href='javascript:void(0)'>{$item['site_name']}</a></li>";
                      }
                      echo "</ul>";
                   echo "</li>";

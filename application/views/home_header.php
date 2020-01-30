@@ -48,19 +48,19 @@
       }
 
       .card-body {
-         /*padding: 0.9rem;*/
+         /*padding: 0.9em;*/
          /*border: 1px dotted darkgray;*/
          box-shadow: 0 0 8px gray;
       }
 
       .table-header-bg {
          background-color: #0F4C81;
-         font-size: 0.95rem;
+         font-size: 0.95em;
       }
 
 
       .mt-5 {
-         margin-top: 1.5rem!important;
+         margin-top: 1.5em!important;
       }
 
       .footer-area {
@@ -73,8 +73,26 @@
 
       .header-title {
          color : #353c42;
-         font-size : 1rem;
+         font-size : 1em;
+      }
+
+      .blink {
+         animation: blink-animation 1s steps(30, start) infinite;
+         -webkit-animation: blink-animation 1s steps(30, start) infinite;
+      }
+
+      @keyframes blink-animation {
+         to {
+            background-color: #ff5151;
+         }
+      }
+
+      @-webkit-keyframes blink-animation {
+         to {
+            background-color: #ff5151;
+         }
       }
    </style>
+
 </head>
 
