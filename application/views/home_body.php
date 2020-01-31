@@ -1,95 +1,180 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+define ("OK", 0);
+define ("NG", -1);
+
+function check_sensor_value1 ($key, $item)
+{
+   $ret = OK;
+   
+   if (preg_match("/depth/i", $key)) {             // 수심 데이터를 검증한다.
+      if ($item <= 0.01) {
+         $ret = NG;
+      }
+   }
+   elseif (preg_match("/temperature/i", $key)) {   // 수온 데이터를 검증한다.
+      if ($item <= 0 || 40 <= $item) {
+         $ret = NG;
+      }
+   }
+   elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
+      if ($item < 0 || 37 < $item) {
+         $ret = NG;
+      }      
+   }
+   elseif (preg_match("/oxygen/i", $key)) {        // 용존산소 데이터를 검증한다.
+      if ($item < 0 || 20 < $item) {
+         $ret = NG;
+      }
+   }
+
+   return $ret;
+}
+
+function check_sensor_value2 ($key, $item)
+{
+   $ret = OK;
+
+   if (preg_match("/battery/i", $key)) {
+      if ($item < 9 || 15 < $item) {
+         $ret = NG;
+      }
+   }
+   elseif (preg_match("/WindDirection/i", $key)) {
+
+   }
+   elseif (preg_match("/WindSpeed/i", $key)) {
+      if ($item < 0 || 40 < $item) {
+         $ret = NG;
+      }
+   }
+   elseif (preg_match("/AirTemp/i", $key)) {
+      if ($item < -40 || 55 < $item) {
+         $ret = NG;
+      }
+   }
+
+   return $ret;
+}
+?>
+
+<?php
+$playing = 0;
 function print_table_row($para)
 {
-   $title = array ('Depth', 'Temperature', 'Salinity', 'Oxygen');
-   echo "<div class='col-lg-4 mt-5'>";
-      echo "<div class='card'>";
-         echo "<div class='card-body'>";
-            echo "<div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:normal; margin: 1em;'>";
+   $title1 = array ('Depth', 'WaterTemp.', 'Salinity', 'Oxygen');
+   $title2 = array ('Battery', 'WindDirection', 'WindSpeed', 'AirTemp.');
+?>
+   <div class='col-lg-4 mt-5'>
+      <div class='card'>
+         <div class='card-body'>
+            <div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:bold; margin: 1em;'>
+               <?php
                echo "<span class='pull-left' style='margin-bottom:1em;'>{$para['site_name']}</span>";
                $imsiTime = date ("h:i:s A", strtotime ($para['time']));
                echo "<span class='pull-right' style='margin-left: 1em'>{$imsiTime}</span>";
                echo "<span class='pull-right'>{$para['date']}</span>";
-            echo "</div>";
-            echo "<div class='single-table'>";
-               echo "<div class='table-responsive'>";
-                  echo "<table class='table text-center'>";
-                     echo "<thead class='table-header-bg'>";
-                     // echo "<thead class='text-uppercase table-header-bg'>";
-                        echo "<tr class='text-white'>";
-                           foreach ($title as $item) {
+               ?>
+            </div>
+            <div class='single-table'>
+               <div class='table-responsive'>
+                  <table class='table text-center'>
+                     <thead class='table-header-bg'>
+                     <!-- <thead class='text-uppercase table-header-bg'> -->
+                        <tr class='text-white'>
+                           <?php
+                           foreach ($title1 as $item) {
                               echo "<th scope='col'>{$item}</th>";
                            }
-                        echo "</tr>";
-                     echo "</thead>";
-                     echo "<tbody>";
-                        foreach ($para['data'] as $key => $layer) {
+                           ?>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <?php
+                        global $playing;
+                        foreach ($para['data'] as $key1 => $layer) {
                            echo '<tr>';
-                           foreach($layer as $item) {
-                              echo '<td>';
+                           foreach($layer as $key2 => $item) {
+                              $ret = check_sensor_value1($key2, $item);
+                              if ($ret == NG) {
+                                 echo "<td class='blink'>";
+                                 if (!$playing) {
+                                    echo "<audio autoplay='autoplay'> <source src='/assets/siren.mp3' type='audio/mpeg' /> </audio>";
+                                    $playing = 1;
+                                 }
+                              }
+                              else {
+                                 echo "<td>";
+                              }
                               echo $item;
                               echo '</td>';
                            }
                            echo '</tr>';
                         }
-                     echo "</tbody>";
-                  echo "</table>";
+                        ?>
+                     </tbody>
+                  </table>
 
-                  echo "<table class='table text-center' style='margin-top:1em'>";
-                     echo "<thead class='table-header-bg'>";
-                        echo "<tr class='text-white'>";
-                           echo "<th scope='col'> Battery</th>";
-                           echo "<th scope='col'> WindDirection</th>";
-                           echo "<th scope='col'> WindSpeed</th>";
-                           echo "<th scope='col'> AirTemp.</th>";
-                        echo "</tr>";
-                     echo "</thead>";
-                     echo "<tbody>";
-                        echo "<tr>";
-                           echo "<td> 12.5 </td>";
-                           echo "<td> 271.3 </td>";
-                           echo "<td> 4.7 </td>";
-                           echo "<td> 19.5 </td>";
-                        echo "</tr>";
-                     echo "</tbody>";
-                  echo "</table>";
-               echo "</div>";
-            echo "</div>";
-         echo "</div>";
-      echo "</div>";
-   echo "</div>";
+                  <table class='table text-center' style='margin-top:1em'>
+                     <thead class='table-header-bg'>
+                        <tr class='text-white'>
+                        <?php
+                           foreach ($title2 as $key => $value) {
+                              echo "<th scope='col'> $value </th>";
+                           }
+                        ?>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td> 12.5 </td>
+                           <td> 271.3 </td>
+                           <td> 4.7 </td>
+                           <td> 19.5 </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+<?php } ?>
 
-}
 
+<?php
 function print_sidebar_menu($para) {
-   echo "<div class='sidebar-menu'>";
-      echo "<div class='sidebar-header'>";
-         echo "<div class='logo' style='width: 200px'>";
-            echo "<a style='color: white; font-size: 25px; text-align: center; cursor: default'>Monitoring System</a>";
-         echo "</div>";
-      echo "</div>";
-      echo "<div class='main-menu'>";
-         echo "<div class='menu-inner'>";
-            echo "<nav>";
-               echo "<ul class='metismenu' id='menu'>";
-                  echo "<li>";
-                     echo "<a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Site Data</span></a>";
-                     echo "<ul class='collapse'>";
-                     foreach ($para as $item) {
-                        echo "<li><a href='javascript:void(0)'>{$item['site_name']}</a></li>";
-                     }
-                     echo "</ul>";
-                  echo "</li>";
-               echo "</ul>";
-            echo "</nav>";
-         echo "</div>";
-      echo "</div>";
-   echo "</div>   ";
-}
-
 ?>
+   <div class='sidebar-menu'>
+      <div class='sidebar-header'>
+         <div class='logo' style='width: 200px'>
+            <a style='color: white; font-size: 25px; text-align: center; cursor: default'>Monitoring System</a>
+         </div>
+      </div>
+      <div class='main-menu'>
+         <div class='menu-inner'>
+            <nav>
+               <ul class='metismenu' id='menu'>
+                  <li>
+                     <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Site Data</span></a>
+                     <ul class='collapse'>
+                     <?php
+                     foreach ($para as $item) {
+                        echo "<li> <a href='javascript:void(0)'> {$item['site_name']} </a> </li>";
+                     }
+                     ?>
+                     </ul>
+                  </li>
+               </ul>
+            </nav>
+         </div>
+      </div>
+   </div>
+<?php
+}
+?>
+
 
 <body>
 
@@ -104,7 +189,7 @@ function print_sidebar_menu($para) {
 
 <div class="page-container">
    <!-- sidebar menu area start -->
-   <?= print_sidebar_menu($buoy_data); ?>
+   <?php print_sidebar_menu($buoy_data); ?>
    <!-- sidebar menu area end -->
    <!-- main content area start -->
    <div class="main-content">

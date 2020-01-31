@@ -79,18 +79,32 @@
       .blink {
          animation: blink-animation 1s steps(30, start) infinite;
          -webkit-animation: blink-animation 1s steps(30, start) infinite;
+         color : white;
+         font-weight : 900;
       }
 
       @keyframes blink-animation {
-         to {
+         0% {opacity: 0;}
+         30% {opacity: 1; color : #ff5151;}
+         70% {opacity: 1; color : #ff5151;}
+         100% {opacity: 0;}
+         /* to {
+            opacity:1;
+            color : #ff5151;
             background-color: #ff5151;
-         }
+         } */
       }
 
       @-webkit-keyframes blink-animation {
-         to {
-            background-color: #ff5151;
-         }
+         0% {opacity: 0;}
+         30% {opacity: 1; color : #ff5151;}
+         70% {opacity: 1; color : #ff5151;}
+         100% {opacity: 0;}
+         /* to {
+            opacity:1;
+            color : #ff5151;
+            background-color: #ff5151; 
+         } */
       }
    </style>
 
