@@ -7,10 +7,12 @@ function print_table_row($para)
    echo "<div class='col-lg-4 mt-5'>";
       echo "<div class='card'>";
          echo "<div class='card-body'>";
-            echo "<span class='header-title' style='margin-left: 1em'>{$para['site_name']}</span>";
-            // echo "<span class='header-title pull-right' style='margin-left: 1em; margin-right: 1em'>{$para['battery']}V</span>";
-            echo "<span class='header-title pull-right' style='margin-left: 1em; margin-right: 1em'>{$para['time']}</span>";
-            echo "<span class='header-title pull-right'>{$para['date']}</span>";
+            echo "<div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:normal; margin: 1em;'>";
+               echo "<span class='pull-left' style='margin-bottom:1em;'>{$para['site_name']}</span>";
+               $imsiTime = date ("h:i:s A", strtotime ($para['time']));
+               echo "<span class='pull-right' style='margin-left: 1em'>{$imsiTime}</span>";
+               echo "<span class='pull-right'>{$para['date']}</span>";
+            echo "</div>";
             echo "<div class='single-table'>";
                echo "<div class='table-responsive'>";
                   echo "<table class='table text-center'>";
@@ -46,7 +48,7 @@ function print_table_row($para)
                      echo "</thead>";
                      echo "<tbody>";
                         echo "<tr>";
-                           echo "<td class='blink'> 12.6 </td>";
+                           echo "<td> 12.5 </td>";
                            echo "<td> 271.3 </td>";
                            echo "<td> 4.7 </td>";
                            echo "<td> 19.5 </td>";
