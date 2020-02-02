@@ -10,7 +10,7 @@
    <title>Web Monitoring System</title>
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="shortcut icon" type="image/png" href="/htdocs/assets/images/icon/favicon.ico">
-   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+   <link rel="stylesheet" href="/assets/css/bootstrap.css">
    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
    <link rel="stylesheet" href="/assets/css/themify-icons.css">
    <link rel="stylesheet" href="/assets/css/metisMenu.css">
@@ -58,13 +58,9 @@
          font-size: 0.95em;
       }
 
-
-      .mt-5 {
-         margin-top: 1.5em!important;
-      }
-
       .footer-area {
-         /* padding: 10px 19px; */
+         padding: 10px 19px;
+         background-color: #fff;
       }
 
       .main-content {
@@ -72,8 +68,12 @@
       }
 
       .header-title {
-         color : #353c42;
-         font-size : 1em;
+         /* color : #353c42; */
+         /* font-size : 1em; */
+         color : #0F4C81;
+         font-size : 16px;
+         font-weight : bold;
+         margin : 1em;;
       }
 
       .blink {
@@ -85,8 +85,8 @@
 
       @keyframes blink-animation {
          0% {opacity: 0;}
-         30% {opacity: 1; color : #ff5151;}
-         70% {opacity: 1; color : #ff5151;}
+         30% {opacity: 1; color : #ff0000;}
+         70% {opacity: 1; color : #ff0000;}
          100% {opacity: 0;}
          /* to {
             opacity:1;
@@ -97,8 +97,8 @@
 
       @-webkit-keyframes blink-animation {
          0% {opacity: 0;}
-         30% {opacity: 1; color : #ff5151;}
-         70% {opacity: 1; color : #ff5151;}
+         30% {opacity: 1; color : #ff0000;}
+         70% {opacity: 1; color : #ff0000;}
          100% {opacity: 0;}
          /* to {
             opacity:1;

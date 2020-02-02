@@ -60,16 +60,16 @@ function check_sensor_value2 ($key, $item)
 ?>
 
 <?php
-$playing = 0;
+$playing = null;
 function print_table_row($para)
 {
    $title1 = array ('Depth', 'WaterTemp.', 'Salinity', 'Oxygen');
-   $title2 = array ('Battery', 'WindDirection', 'WindSpeed', 'AirTemp.');
+   $title2 = array ('WindDirection', 'WindSpeed', 'AirTemp.', 'Battery');
 ?>
-   <div class='col-lg-4 mt-5'>
+   <div class='col-md-4 mt-4'>
       <div class='card'>
          <div class='card-body'>
-            <div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:bold; margin: 1em;'>
+            <div class='header-title'>
                <?php
                echo "<span class='pull-left' style='margin-bottom:1em;'>{$para['site_name']}</span>";
                $imsiTime = date ("h:i:s A", strtotime ($para['time']));
@@ -99,8 +99,8 @@ function print_table_row($para)
                               $ret = check_sensor_value1($key2, $item);
                               if ($ret == NG) {
                                  echo "<td class='blink'>";
-                                 if (!$playing) {
-                                    echo "<audio autoplay='autoplay'> <source src='/assets/siren.mp3' type='audio/mpeg' /> </audio>";
+                                 if ($playing == null) {
+                                    // echo "<audio autoplay='autoplay'> <source src='/assets/siren.mp3' type='audio/mpeg' /> </audio>";
                                     $playing = 1;
                                  }
                               }
@@ -116,7 +116,7 @@ function print_table_row($para)
                      </tbody>
                   </table>
 
-                  <table class='table text-center' style='margin-top:1em'>
+                  <table class='table text-center mt-3'>
                      <thead class='table-header-bg'>
                         <tr class='text-white'>
                         <?php
