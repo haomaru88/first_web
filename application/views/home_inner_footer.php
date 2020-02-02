@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <footer>
    <div class="footer-area">
       <p>&copy; Copyright 2020. All right reserved. Made by
-         <a href="javascript:void(0)" target="_self"> GEMATEK</a>.
+         <a href="javascript:void(0)" title="지마텍" target="_self"> GEMATEK</a>.
       </p>
    </div>
 </footer>
