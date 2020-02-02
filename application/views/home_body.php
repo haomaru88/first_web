@@ -66,9 +66,10 @@ function print_table_row($para)
    $title1 = array ('Depth', 'WaterTemp.', 'Salinity', 'Oxygen');
    $title2 = array ('WindDirection', 'WindSpeed', 'AirTemp.', 'Battery');
 ?>
-   <div class='col-md-4 mt-4'>
+   <div>
+   <!-- <div class='col-md-4 mt-4'> -->
       <div class='card'>
-         <div class='card-body'>
+         <div class='card-body col'>
             <div class='header-title'>
                <?php
                echo "<span class='pull-left' style='margin-bottom:1em;'>{$para['site_name']}</span>";
