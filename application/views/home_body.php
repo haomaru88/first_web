@@ -67,7 +67,7 @@ function print_table_row($para)
    $title2 = array ('Battery', 'WindDirection', 'WindSpeed', 'AirTemp.');
 ?>
 
-   <div class='col-lg-4 mt-4'>
+   <div class='col-xl-4 mt-4'>
       <div class='card'>
          <div class='card-body'>
             <div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:bold; margin: 1em;'>

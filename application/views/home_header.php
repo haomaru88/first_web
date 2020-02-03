@@ -35,6 +35,9 @@
          background-color: #0F4C81;
       }
 
+      .sidebar-menu {
+         width: 280px;
+      }
       li {
          border-bottom: 1px solid;
       }

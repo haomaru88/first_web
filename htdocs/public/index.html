@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>EXPRESS</title>
+    <script src="jquery-3.4.1.js"></script>
+</head>
+<body>
+    <h1>HELLO WORLD STATIC FILE</h1>
+    <button id="click">CLICK HERE</button>
+    <script>
+        // /data.html
+        setTimeout(function(){    
+            $.ajax({
+                url: "data.html",
+                success: function(data, textStatus, xhr){
+                    $("body").html(data)
+                }
+            })
+        }, 3000)
+        
+        // /data.xml
+        $("#click").click(function(){
+            $.ajax({
+                url: "data.xml",
+                success: function(data, textStatus, xhr){
+                    $(data).find("product").each(function(){
+                        let name = $(this).find("name").text()
+                        let price = $(this).find("price").text()
+
+                        let $header = $("<h1></h1>").text(name + " : " + price)
+                        $("<div></div>").append($header).appendTo("body")
+                    })
+                }
+            })
+        })
+        
+        // /data.json
+        $.ajax({
+            url: "data.json",
+            success: function(data, textStatus, xhr){
+                data.forEach(function(item){
+                    let $header = $("<h1></h1>").text(item.name + " : " + item.price)
+                    $("<div></div>").append($header).appendTo("body")
+                })
+            }
+        })
+    </script>
+</body>
+</html>

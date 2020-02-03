@@ -1,0 +1,10 @@
+<script>
+   setTimeout(function(){
+      $.ajax({
+         url: "/data.html",
+         success: function(data, textStatus, xhr) {
+            $("body").html(data)
+         }
+      })
+   }, 1000)
+</script>
