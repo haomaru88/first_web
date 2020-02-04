@@ -28,7 +28,6 @@ class Home_model extends CI_Model
       parent::__construct();
 
       $this->load->database();
-
       $this->table_data = 'table_data';
       $this->table_index = 'table_index';
       // $this->sql1 = "SELECT * FROM {$this->table_index}";
@@ -36,7 +35,8 @@ class Home_model extends CI_Model
    }
 
    public function get_latest_data() {
-      // table_index 테이블에서 데이터를 모두 읽어온다.
+      // table_index 테이블에서 데이터를 모두 읽어온다. (사이트 이름을 키로 하여 정렬한다.)
+      $this->db->order_by("site_name", "asc");
       $query = $this->db->get($this->table_index);
       $sql_result_1 = $query->result();
       $para['buoy_data'] = array();

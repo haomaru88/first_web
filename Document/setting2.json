@@ -1,0 +1,40 @@
+{
+    "editor.tabSize": 3,
+    "editor.minimap.maxColumn": 70,
+    "editor.renderWhitespace": "none",
+    "editor.renderControlCharacters": true,
+    "editor.mouseWheelZoom": true,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorWidth": 3,
+    "editor.find.autoFindInSelection": "multiline",
+    "editor.tokenColorCustomizations": {
+        // "comments": "#838383",
+        "textMateRules": [
+            {
+                "scope": "comment",
+                "settings": {
+                    "foreground": "#7c7c7c",
+                    "fontStyle": ""
+                }
+            }
+        ]
+    },
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": true,
+        "strings": true
+    },
+    "css.remoteStyleSheets": ["https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"],
+    "css.fileExtensions": [ "css", "scss"],
+    "breadcrumbs.enabled": true,
+    "files.autoSave": "onWindowChange",
+    "git.path": "D:/Pub/PortableGit/bin/git.exe",
+    "files.associations": {"*.module": "php"},
+    "php.suggest.basic": false,
+    "scm.alwaysShowActions": true,
+    "scm.alwaysShowProviders": true,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.statusBar.reduceFlicker": true,
+    "workbench.colorTheme": "Community Material Theme",
+    "git.enableSmartCommit": true
+}

@@ -68,6 +68,7 @@
 
       .footer-area {
          /* padding: 10px 19px; */
+         background-color:linen;
       }
 
       .main-content {
@@ -77,6 +78,14 @@
       .header-title {
          color : #353c42;
          font-size : 1em;
+      }
+
+      .table-header-gematek {
+         background-color: #0F4C81;
+      }
+
+      .table-header-geo {
+         background-color: #81390f;
       }
 
       .blink {

@@ -57,6 +57,42 @@ function check_sensor_value2 ($key, $item)
 
    return $ret;
 }
+
+
+function is_gematek_site_name ($name) {
+
+   $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
+
+   if (in_array($name, $gematek_site_name)) {
+      return OK;
+   }
+   return NG;
+}
+
+function convert_site_name ($name) {
+   // $site_name = array ('AI51', 'AI52', 'AI53', 'AI54', 'AI56', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'ZI45');
+   $new_name = array (
+      array ('AI51', '자란1 (AI51)'),
+      array ('AI52', '고성1 (AI52)'),
+      array ('AI53', '진동1 (AI53)'),
+      array ('AI54', '진동2 (AI54)'),
+      array ('AI56', '자란3 (AI56)'),
+      array ('AI57', '가막1 (AI57)'),
+      array ('AI58', '가막2 (AI58)'),
+      array ('AI59', '당동1 (AI59)'),
+      array ('AI60', '가조2 (AI60)'),
+      array ('AI61', '가조1 (AI61)'),
+      array ('ZI45', '하동 (ZI45)')
+   );
+
+   $key = array_search($name, array_column($new_name, '0'), true);
+   if ($key === FALSE) {
+      var_dump($name);
+      echo "array_search() FAIL!";
+      exit;
+   }
+   return $new_name[$key][1];
+}
 ?>
 
 <?php
@@ -70,16 +106,23 @@ function print_table_row($para)
    <div class='col-xl-4 mt-4'>
       <div class='card'>
          <div class='card-body'>
-            <div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:bold; margin: 1em;'>
-               <span class='pull-left' style='margin-bottom:1em;'> <?=$para['site_name']?> </span>
+            <div class='header-title'>
+               <span class='pull-left' style='margin:0em 1em 1em;'> <?=convert_site_name($para['site_name'])?> </span>
                <?php $imsiTime = date ("h:i:s A", strtotime ($para['time'])); ?>
-               <span class='pull-right' style='margin-left: 1em'> <?=$imsiTime?> </span>
+               <span class='pull-right' style='margin: 0em 1em 0em 1em'> <?=$imsiTime?> </span>
                <span class='pull-right'> <?=$para['date']?> </span>
             </div>
             <div class='single-table'>
                <div class='table-responsive'>
                   <table class='table text-center'>
-                     <thead class='table-header-bg'>
+                     <?php 
+                     if (is_gematek_site_name($para['site_name']) == OK) {
+                        echo "<thead class='table-header-bg'>";
+                     }
+                     else {
+                        echo "<thead class='table-header-geo'>";
+                     }
+                     ?>
                      <!-- <thead class='text-uppercase table-header-bg'> -->
                         <tr class='text-white'>
                            <?php foreach ($title1 as $item): ?>
@@ -114,7 +157,14 @@ function print_table_row($para)
                   </table>
 
                   <table class='table text-center' style='margin-top:1em'>
-                     <thead class='table-header-bg'>
+                     <?php 
+                     if (is_gematek_site_name($para['site_name']) == OK) {
+                        echo "<thead class='table-header-bg'>";
+                     }
+                     else {
+                        echo "<thead class='table-header-geo'>";
+                     }
+                     ?>
                         <tr class='text-white'>
                            <?php foreach ($title2 as $key => $value): ?>
                            <th scope='col'> <?=$value?> </th>
@@ -123,10 +173,10 @@ function print_table_row($para)
                      </thead>
                      <tbody>
                         <tr>
-                           <td> 12.5 </td>
-                           <td> 271.3 </td>
-                           <td> 4.7 </td>
-                           <td> 19.5 </td>
+                           <td> <?=$para['battery']?> </td>
+                           <td> <?=$para['wind_direction']?> </td>
+                           <td> <?=$para['wind_speed']?> </td>
+                           <td> <?=$para['air_temperature']?> </td>
                         </tr>
                      </tbody>
                   </table>
@@ -154,11 +204,9 @@ function print_sidebar_menu($para) {
                   <li>
                      <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Site Data</span></a>
                      <ul class='collapse'>
-                     <?php
-                     foreach ($para as $item) {
-                        echo "<li> <a href='javascript:void(0)'> {$item['site_name']} </a> </li>";
-                     }
-                     ?>
+                     <?php foreach ($para as $item): ?>
+                        <li> <a href='javascript:void(0)'> <?=convert_site_name($item['site_name'])?> </a> </li>
+                     <?php endforeach; ?>
                      </ul>
                   </li>
                </ul>
