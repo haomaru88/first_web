@@ -71,12 +71,10 @@ function print_table_row($para)
       <div class='card'>
          <div class='card-body'>
             <div class='header-title' style='color:#0F4C81; font-size:16px; font-weight:bold; margin: 1em;'>
-               <?php
-               echo "<span class='pull-left' style='margin-bottom:1em;'>{$para['site_name']}</span>";
-               $imsiTime = date ("h:i:s A", strtotime ($para['time']));
-               echo "<span class='pull-right' style='margin-left: 1em'>{$imsiTime}</span>";
-               echo "<span class='pull-right'>{$para['date']}</span>";
-               ?>
+               <span class='pull-left' style='margin-bottom:1em;'> <?=$para['site_name']?> </span>
+               <?php $imsiTime = date ("h:i:s A", strtotime ($para['time'])); ?>
+               <span class='pull-right' style='margin-left: 1em'> <?=$imsiTime?> </span>
+               <span class='pull-right'> <?=$para['date']?> </span>
             </div>
             <div class='single-table'>
                <div class='table-responsive'>
@@ -84,11 +82,9 @@ function print_table_row($para)
                      <thead class='table-header-bg'>
                      <!-- <thead class='text-uppercase table-header-bg'> -->
                         <tr class='text-white'>
-                           <?php
-                           foreach ($title1 as $item) {
-                              echo "<th scope='col'>{$item}</th>";
-                           }
-                           ?>
+                           <?php foreach ($title1 as $item): ?>
+                              <th scope='col'> <?=$item?> </th>
+                           <?php endforeach; ?>
                         </tr>
                      </thead>
                      <tbody>
@@ -120,11 +116,9 @@ function print_table_row($para)
                   <table class='table text-center' style='margin-top:1em'>
                      <thead class='table-header-bg'>
                         <tr class='text-white'>
-                        <?php
-                           foreach ($title2 as $key => $value) {
-                              echo "<th scope='col'> $value </th>";
-                           }
-                        ?>
+                           <?php foreach ($title2 as $key => $value): ?>
+                           <th scope='col'> <?=$value?> </th>
+                           <?php endforeach; ?>
                         </tr>
                      </thead>
                      <tbody>
