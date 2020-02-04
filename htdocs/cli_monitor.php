@@ -58,7 +58,7 @@ function sql_update_last_uid ($c_uid, $pdo)
 	$result = $stmt_data->execute();
 	my_info ("PDO->Execute() - $sql - " . $stmt_data->errorInfo()[0]);
 	$row = $stmt_data->fetchAll();
- 
+
 	$cnt = count($row);
 	if (!$result) {
 		echo "ERROR : Not found ROW (site_name = 'uid')!!!" . PHP_EOL;
