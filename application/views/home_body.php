@@ -151,9 +151,12 @@ function convert_site_name ($name) {
                </div>
             </div>
             <div class="row col-md-10 col-sm-10 clearfix">
-               <span><a href="#top" target="_parent" title="Gematek"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
+               <span><a href="#top" target="_parent" title="Gematek" style="margin: 0 0 0 30px"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
                <span style="font-size: x-large; font-weight: bolder; color: #0e0d79; margin: 8px 0 0 20px">빈산소 수괴 관측 시스템</span>
             </div>
+            <!-- <div class="col-md-1 col-sm-1 clearfix>
+               <input type="button" value="Print" id="print_button" onclick="window.print()" />
+            </div> -->
             <!-- profile info & task notification -->
             <div class="col-md-1 col-sm-1 clearfix">
                <ul class="notification-area pull-right">
