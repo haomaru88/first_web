@@ -68,11 +68,11 @@
 
       .footer-area {
          /* padding: 10px 19px; */
-         background-color:linen;
+         background-color: white;
       }
 
       .main-content {
-         background-color: whitesmoke;
+         background-color: #f9f9f9;
       }
 
       .header-title {

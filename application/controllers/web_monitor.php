@@ -4,8 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Web_monitor extends CI_Controller
 {
 	public function index() {
-		// $this->load->database();
-		$this->load->model('home_model');
+		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_latest_data();
 		$imsi += ['filename' => 'home_body_first_page.php'];
 		$this->load->view('home_header');
@@ -18,12 +17,12 @@ class Web_monitor extends CI_Controller
 		echo '
 		<!DOCTYPE html>
 		<html>
-			 <head>
-				  <meta charset="utf-8"/>
-			 </head>
-			 <body>
-				  토픽 '.$id.'
-			 </body>
+			<head>
+				<meta charset="utf-8"/>
+			</head>
+			<body>
+				토픽 '.$id.'
+			</body>
 		</html>
 		';
 	}
@@ -39,5 +38,9 @@ class Web_monitor extends CI_Controller
 			echo "<input type='button' value='fetch' onclick='fetch(\"/test.txt\").then();'>
 		</body>
 	</html>";
+	}
+
+	function phpinfo() {
+		phpinfo();
 	}
 }

@@ -19,7 +19,7 @@ function check_sensor_value1 ($key, $item)
       }
    }
    elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
-      if ($item < 0 || 37 < $item) {
+      if ($item < 7 || 37 < $item) {
          $ret = NG;
       }      
    }
@@ -45,7 +45,7 @@ function check_sensor_value2 ($key, $item)
 
    }
    elseif (preg_match("/WindSpeed/i", $key)) {
-      if ($item < 0 || 40 < $item) {
+      if ($item < 0.1 || 40 < $item) {
          $ret = NG;
       }
    }
