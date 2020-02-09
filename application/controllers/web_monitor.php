@@ -6,7 +6,7 @@ class Web_monitor extends CI_Controller
 	public function index() {
 		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_latest_data();
-		$imsi += ['filename' => 'home_body_first_page.php'];
+		$imsi += ['content_filename' => 'home_body_first_page.php'];
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
 		// $this->load->view('home_inner_footer');

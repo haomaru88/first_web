@@ -167,7 +167,7 @@ function convert_site_name ($name) {
          </div>
       </div>
       <!-- header area end -->
-      <?php require $filename; ?>
+      <?php require $content_filename; ?>
    </div>
 <?php
    require 'home_inner_footer.php';
