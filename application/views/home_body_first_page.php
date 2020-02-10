@@ -27,7 +27,7 @@ function check_sensor_value1 ($key, $item)
       }
    }
    elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
-      if ($item < 0 || 37 < $item) {
+      if ($item < 10 || 37 < $item) {
          $ret = NG;
       }      
    }

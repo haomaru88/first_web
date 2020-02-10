@@ -4,70 +4,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 define ("OK", 0);
 define ("NG", -1);
 
-function check_sensor_value1 ($key, $item)
-{
-   $ret = OK;
+// function check_sensor_value1 ($key, $item)
+// {
+//    $ret = OK;
    
-   if (preg_match("/depth/i", $key)) {             // 수심 데이터를 검증한다.
-      if ($item <= 0.01) {
-         $ret = NG;
-      }
-   }
-   elseif (preg_match("/temperature/i", $key)) {   // 수온 데이터를 검증한다.
-      if ($item <= 0 || 40 <= $item) {
-         $ret = NG;
-      }
-   }
-   elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
-      if ($item < 7 || 37 < $item) {
-         $ret = NG;
-      }      
-   }
-   elseif (preg_match("/oxygen/i", $key)) {        // 용존산소 데이터를 검증한다.
-      if ($item < 0 || 20 < $item) {
-         $ret = NG;
-      }
-   }
+//    if (preg_match("/depth/i", $key)) {             // 수심 데이터를 검증한다.
+//       if ($item <= 0.01) {
+//          $ret = NG;
+//       }
+//    }
+//    elseif (preg_match("/temperature/i", $key)) {   // 수온 데이터를 검증한다.
+//       if ($item <= 0 || 40 <= $item) {
+//          $ret = NG;
+//       }
+//    }
+//    elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
+//       if ($item < 7 || 37 < $item) {
+//          $ret = NG;
+//       }      
+//    }
+//    elseif (preg_match("/oxygen/i", $key)) {        // 용존산소 데이터를 검증한다.
+//       if ($item < 0 || 20 < $item) {
+//          $ret = NG;
+//       }
+//    }
 
-   return $ret;
-}
+//    return $ret;
+// }
 
-function check_sensor_value2 ($key, $item)
-{
-   $ret = OK;
+// function check_sensor_value2 ($key, $item)
+// {
+//    $ret = OK;
 
-   if (preg_match("/battery/i", $key)) {
-      if ($item < 9 || 15 < $item) {
-         $ret = NG;
-      }
-   }
-   elseif (preg_match("/WindDirection/i", $key)) {
+//    if (preg_match("/battery/i", $key)) {
+//       if ($item < 9 || 15 < $item) {
+//          $ret = NG;
+//       }
+//    }
+//    elseif (preg_match("/WindDirection/i", $key)) {
 
-   }
-   elseif (preg_match("/WindSpeed/i", $key)) {
-      if ($item < 0.1 || 40 < $item) {
-         $ret = NG;
-      }
-   }
-   elseif (preg_match("/AirTemp/i", $key)) {
-      if ($item < -40 || 55 < $item) {
-         $ret = NG;
-      }
-   }
+//    }
+//    elseif (preg_match("/WindSpeed/i", $key)) {
+//       if ($item < 0.1 || 40 < $item) {
+//          $ret = NG;
+//       }
+//    }
+//    elseif (preg_match("/AirTemp/i", $key)) {
+//       if ($item < -40 || 55 < $item) {
+//          $ret = NG;
+//       }
+//    }
 
-   return $ret;
-}
+//    return $ret;
+// }
 
 
-function is_gematek_site_name ($name) {
+// function is_gematek_site_name ($name) {
 
-   $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
+//    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
 
-   if (in_array($name, $gematek_site_name)) {
-      return OK;
-   }
-   return NG;
-}
+//    if (in_array($name, $gematek_site_name)) {
+//       return OK;
+//    }
+//    return NG;
+// }
 
 function convert_site_name ($name) {
    // $site_name = array ('AI51', 'AI52', 'AI53', 'AI54', 'AI56', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'ZI45');
