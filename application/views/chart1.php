@@ -7,10 +7,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.5"></script>
 
-<div style="width:75%;">
+<div style="width:45%;">
 		<button onclick="resetZoom()">Reset Zoom</button>
 		<button id="drag-switch" onclick="toggleDragMode()">Disable drag mode</button>
-		<canvas id="canvas"></canvas>
+		<canvas id="canvas" style="background-color: white; padding: 1em"></canvas>
 	</div>
 	<script>
 		var timeFormat = 'MM/DD/YYYY HH:mm';
