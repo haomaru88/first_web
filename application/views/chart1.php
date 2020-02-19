@@ -2,139 +2,85 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
-<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.5"></script>
+<!-- Styles -->
+<style>
+#chartdiv {
+	width: 50%;
+	height: 500px;
+}
 
-<div style="width:45%;">
-		<button onclick="resetZoom()">Reset Zoom</button>
-		<button id="drag-switch" onclick="toggleDragMode()">Disable drag mode</button>
-		<canvas id="canvas" style="background-color: white; padding: 1em"></canvas>
-	</div>
-	<script>
-		var timeFormat = 'MM/DD/YYYY HH:mm';
-		var now = window.moment();
-		var dragOptions = {
-			animationDuration: 1000
-		};
+</style>
 
-		function randomScalingFactor() {
-			return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
-		}
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
-		function randomColorFactor() {
-			return Math.round(Math.random() * 255);
-		}
+<!-- Chart code -->
+<script>
+am4core.ready(function() {
 
-		function randomColor(opacity) {
-			return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-		}
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
 
-		function newDate(days) {
-			return now.clone().add(days, 'd').toDate();
-		}
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-		function newDateString(days) {
-			return now.clone().add(days, 'd').format(timeFormat);
-		}
+// Add data
+chart.data = generateChartData();
 
-		var config = {
-			type: 'line',
-			data: {
-				labels: [newDate(0), newDate(1), newDate(2), newDate(3), newDate(4), newDate(5), newDate(6)], // Date Objects
-				datasets: [{
-					label: 'My First dataset',
-					data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
-					fill: false,
-					borderDash: [5, 5],
-				}, {
-					label: 'My Second dataset',
-					data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()],
-					fill: false,
-				}, {
-					label: 'Dataset with point data',
-					data: [{
-						x: newDateString(0),
-						y: randomScalingFactor()
-					}, {
-						x: newDateString(5),
-						y: randomScalingFactor()
-					}, {
-						x: newDateString(7),
-						y: randomScalingFactor()
-					}, {
-						x: newDateString(15),
-						y: randomScalingFactor()
-					}],
-					fill: false
-				}]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: true,
-					text: 'Chart.js Time Scale'
-				},
-				scales: {
-					xAxes: [{
-						type: 'time',
-						time: {
-							parser: timeFormat,
-							// round: 'day'
-							tooltipFormat: 'll HH:mm'
-						},
-						scaleLabel: {
-							display: true,
-							labelString: 'Date'
-						},
-						ticks: {
-							maxRotation: 0
-						}
-					}],
-					yAxes: [{
-						scaleLabel: {
-							display: true,
-							labelString: 'value'
-						}
-					}]
-				},
-				plugins: {
-					zoom: {
-						zoom: {
-							enabled: true,
-							drag: dragOptions,
-							mode: 'x',
-							speed: 0.5
-						}
-					}
-				}
-			}
-		};
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.minGridDistance = 50;
 
-		config.data.datasets.forEach(function(dataset) {
-			dataset.borderColor = randomColor(0.4);
-			dataset.backgroundColor = randomColor(0.5);
-			dataset.pointBorderColor = randomColor(0.7);
-			dataset.pointBackgroundColor = randomColor(0.5);
-			dataset.pointBorderWidth = 1;
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "visits";
+series.dataFields.dateX = "date";
+series.strokeWidth = 2;
+series.minBulletDistance = 10;
+series.tooltipText = "{valueY}";
+series.tooltip.pointerOrientation = "vertical";
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.fillOpacity = 0.5;
+series.tooltip.label.padding(12,12,12,12)
+
+// Add scrollbar
+chart.scrollbarX = new am4charts.XYChartScrollbar();
+chart.scrollbarX.series.push(series);
+
+// Add cursor
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.xAxis = dateAxis;
+chart.cursor.snapToSeries = series;
+
+function generateChartData() {
+	var chartData = [];
+	var firstDate = new Date();
+	firstDate.setDate(firstDate.getDate() - 1000);
+	var visits = 1200;
+	for (var i = 0; i < 500; i++) {
+		// we create date objects here. In your data, you can have date strings
+		// and then set format of your dates using chart.dataDateFormat property,
+		// however when possible, use date objects, as this will speed up chart rendering.
+		var newDate = new Date(firstDate);
+		newDate.setDate(newDate.getDate() + i);
+		
+		visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+
+		chartData.push({
+			date: newDate,
+			visits: visits
 		});
+	}
+	return chartData;
+}
 
-		window.resetZoom = function() {
-			window.myLine.resetZoom();
-		};
+}); // end am4core.ready()
+</script>
 
-		window.toggleDragMode = function() {
-			var chart = window.myLine;
-			var zoomOptions = chart.options.plugins.zoom.zoom;
-			zoomOptions.drag = zoomOptions.drag ? false : dragOptions;
-
-			chart.update();
-			document.getElementById('drag-switch').innerText = zoomOptions.drag ? 'Disable drag mode' : 'Enable drag mode';
-		};
-
-		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new window.Chart(ctx, config);
-		};
-	</script>
+<!-- HTML -->
+<div id="chartdiv"></div>
