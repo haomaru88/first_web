@@ -4,71 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 define ("OK", 0);
 define ("NG", -1);
 
-// function check_sensor_value1 ($key, $item)
-// {
-//    $ret = OK;
-   
-//    if (preg_match("/depth/i", $key)) {             // 수심 데이터를 검증한다.
-//       if ($item <= 0.01) {
-//          $ret = NG;
-//       }
-//    }
-//    elseif (preg_match("/temperature/i", $key)) {   // 수온 데이터를 검증한다.
-//       if ($item <= 0 || 40 <= $item) {
-//          $ret = NG;
-//       }
-//    }
-//    elseif (preg_match("/salinity/i", $key)) {      // 염분 데이터를 검증한다.
-//       if ($item < 7 || 37 < $item) {
-//          $ret = NG;
-//       }      
-//    }
-//    elseif (preg_match("/oxygen/i", $key)) {        // 용존산소 데이터를 검증한다.
-//       if ($item < 0 || 20 < $item) {
-//          $ret = NG;
-//       }
-//    }
-
-//    return $ret;
-// }
-
-// function check_sensor_value2 ($key, $item)
-// {
-//    $ret = OK;
-
-//    if (preg_match("/battery/i", $key)) {
-//       if ($item < 9 || 15 < $item) {
-//          $ret = NG;
-//       }
-//    }
-//    elseif (preg_match("/WindDirection/i", $key)) {
-
-//    }
-//    elseif (preg_match("/WindSpeed/i", $key)) {
-//       if ($item < 0.1 || 40 < $item) {
-//          $ret = NG;
-//       }
-//    }
-//    elseif (preg_match("/AirTemp/i", $key)) {
-//       if ($item < -40 || 55 < $item) {
-//          $ret = NG;
-//       }
-//    }
-
-//    return $ret;
-// }
-
-
-// function is_gematek_site_name ($name) {
-
-//    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
-
-//    if (in_array($name, $gematek_site_name)) {
-//       return OK;
-//    }
-//    return NG;
-// }
-
 function convert_site_name ($name) {
    // $site_name = array ('AI51', 'AI52', 'AI53', 'AI54', 'AI56', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'ZI45');
    $new_name = array (
@@ -107,10 +42,10 @@ function convert_site_name ($name) {
             <nav>
                <ul class='metismenu' id='menu'>
                   <li>
-                     <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Site Data</span></a>
+                     <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Chart Data</span></a>
                      <ul class='collapse'>
                      <?php foreach ($para as $item): ?>
-                        <li> <a href='/index.php/web_monitor/chart1'> <?=convert_site_name($item['site_name'])?> </a> </li>
+                        <li> <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
                      <?php endforeach; ?>
                      </ul>
                   </li>

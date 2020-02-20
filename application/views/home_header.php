@@ -5,6 +5,26 @@
 <html class="no-js" lang="ko" dir="ltr">
 
 <head>
+<!-- Styles -->
+<style>
+/* body {
+	font-family: Verdana;
+	font-size: 12px;
+	padding: 10px;
+} */
+
+#chartdiv, #chartdiv2, #chartdiv3{
+	width	: 100%;
+	height	: 700px;
+	font-size	: 11px;
+}	
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
    <meta charset="utf-8">
    <meta http-equiv="x-ua-compatible" content="ie=edge">
    <title>Web Monitoring System</title>
