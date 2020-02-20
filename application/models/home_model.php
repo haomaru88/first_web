@@ -124,6 +124,9 @@ class Home_model extends CI_Model
       $prev_one_year = date_create();  // 현재 날짜를 얻는다.
       date_sub($prev_one_year, date_interval_create_from_date_string('6 months'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
       $target_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
+
+      $this->db->order_by("date", "asc");
+      $this->db->order_by("time", "asc");
       $query = $this->db->get_where($this->table_data, array('site_name'=>$site, 'date >='=>$target_day));
       $result = $query->result();
       $para['one_year_data'] = array();
