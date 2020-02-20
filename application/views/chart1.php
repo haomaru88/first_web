@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		series.dataFields.dateX = "date";
 		series.strokeWidth = 2;
 		series.minBulletDistance = 20;
-		series.tooltipText = "{dateX}: [bold]{" + text1 + "}[/]m";
+		series.tooltipText = "{dateX} = [bold]{" + text1 + "}[/]m";
 		series.tooltip.pointerOrientation = "horizontal";
 		series.tooltip.background.cornerRadius = 10;
 		series.tooltip.background.fillOpacity = 1;
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		// Add cursor
 		chart.cursor = new am4charts.XYCursor();
 		chart.cursor.xAxis = dateAxis;
-		chart.cursor.snapToSeries = series3;
+		// chart.cursor.snapToSeries = series3;
 
 	}); // end am4core.ready()
 
