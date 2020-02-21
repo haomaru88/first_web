@@ -60,7 +60,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		var layer3_name = ["표층", "중층", "저층"];
 		var layer4_name = ["외측표층", "내측표층", "내측중층", "내측저층"];
-		console.log (argu);
 
 		if (argu.layer == 4) {
 			var series4 = chart.series.push(new am4charts.LineSeries());
@@ -85,6 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			chart.scrollbarX.series.push(series4);
 		}
 		chart.scrollbarY = new am4charts.XYChartScrollbar();
+		chart.scrollbarX.height = am4core.percent(50);
 
 		// Add cursor
 		chart.cursor = new am4charts.XYCursor();
