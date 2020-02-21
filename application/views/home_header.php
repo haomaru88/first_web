@@ -1,6 +1,7 @@
 <?php
    defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+
 <!doctype html>
 <html class="no-js" lang="ko" dir="ltr">
 
@@ -13,11 +14,46 @@
 	padding: 10px;
 } */
 
-#chartdiv, #chartdiv2, #chartdiv3{
+#chartdiv1, #chartdiv2, #chartdiv3, #chartdiv4 {
 	width	: 100%;
-	height	: 700px;
+	height	: 600px;
 	font-size	: 11px;
-}	
+}
+
+.chart_title0 {
+   color: #0F4C81;
+   padding: 10px 0 0 60px;
+   margin: 0
+
+}
+
+.chart_title1 {
+   padding: 10px 0 0 60px;
+   margin: 0
+   color: #0F4C81;
+}
+
+.chart_title_layer1, .chart_title_layer2, .chart_title_layer3, .chart_title_layer4 {
+   padding: 0 5px;
+   font-size: 0.5em;
+   color: white;
+}
+.chart_title_layer1 {
+   background-color: <?php echo $this->chart_title_bg_color[0]; ?>;
+}
+
+.chart_title_layer2 {
+   background-color: <?php echo $this->chart_title_bg_color[1]; ?>;
+}
+
+.chart_title_layer3 {
+   background-color: <?php echo $this->chart_title_bg_color[2]; ?>;
+}
+
+.chart_title_layer4 {
+   background-color: <?php echo $this->chart_title_bg_color[3]; ?>;
+}
+
 </style>
 
 <!-- Resources -->

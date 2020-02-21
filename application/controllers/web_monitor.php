@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_monitor extends CI_Controller
 {
+	public $chart_title_bg_color = [
+		"#de0f00",
+		"#c28800",
+		"#000ed1",
+		"#a600d4"
+	];
+
 	public function __construct() {
       parent::__construct();
 	}

@@ -1,148 +1,150 @@
-var chartData = generateChartData();
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ *
+ * For more information visit:
+ * https://www.amcharts.com/
+ *
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
 
-function generateChartData() {
-  var chartData = [];
-  var firstDate = new Date( 2012, 0, 1 );
-  firstDate.setDate( firstDate.getDate() - 1000 );
-  firstDate.setHours( 0, 0, 0, 0 );
+/* Create chart instance */
+var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-  for ( var i = 0; i < 1000; i++ ) {
-    var newDate = new Date( firstDate );
-    newDate.setHours( 0, i, 0, 0 );
+/* Add data */
+chart.data = [{
+  "year": "1994",
+  "cars": 1587,
+  "motorcycles": 650,
+  "bicycles": 121
+}, {
+  "year": "1995",
+  "cars": 1567,
+  "motorcycles": 683,
+  "bicycles": 146
+}, {
+  "year": "1996",
+  "cars": 1617,
+  "motorcycles": 691,
+  "bicycles": 138
+}, {
+  "year": "1997",
+  "cars": 1630,
+  "motorcycles": 642,
+  "bicycles": 127
+}, {
+  "year": "1998",
+  "cars": 1660,
+  "motorcycles": 699,
+  "bicycles": 105
+}, {
+  "year": "1999",
+  "cars": 1683,
+  "motorcycles": 721,
+  "bicycles": 109
+}, {
+  "year": "2000",
+  "cars": 1691,
+  "motorcycles": 737,
+  "bicycles": 112
+}, {
+  "year": "2001",
+  "cars": 1298,
+  "motorcycles": 680,
+  "bicycles": 101
+}, {
+  "year": "2002",
+  "cars": 1275,
+  "motorcycles": 664,
+  "bicycles": 97
+}, {
+  "year": "2003",
+  "cars": 1246,
+  "motorcycles": 648,
+  "bicycles": 93
+}, {
+  "year": "2004",
+  "cars": 1218,
+  "motorcycles": 637,
+  "bicycles": 101
+}, {
+  "year": "2005",
+  "cars": 1213,
+  "motorcycles": 633,
+  "bicycles": 87
+}, {
+  "year": "2006",
+  "cars": 1199,
+  "motorcycles": 621,
+  "bicycles": 79
+}, {
+  "year": "2007",
+  "cars": 1110,
+  "motorcycles": 210,
+  "bicycles": 81
+}, {
+  "year": "2008",
+  "cars": 1165,
+  "motorcycles": 232,
+  "bicycles": 75
+}, {
+  "year": "2009",
+  "cars": 1145,
+  "motorcycles": 219,
+  "bicycles": 88
+}, {
+  "year": "2010",
+  "cars": 1163,
+  "motorcycles": 201,
+  "bicycles": 82
+}, {
+  "year": "2011",
+  "cars": 1180,
+  "motorcycles": 285,
+  "bicycles": 87
+}, {
+  "year": "2012",
+  "cars": 1159,
+  "motorcycles": 277,
+  "bicycles": 71
+}];
 
-    var a = Math.round( Math.random() * ( 40 + i ) ) + 100 + i;
-    var b = Math.round( Math.random() * 100000000 );
+/* Create axes */
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "year";
 
-    chartData.push( {
-      "date": newDate,
-      "value": a,
-      "volume": b
-    } );
-  }
-  return chartData;
-}
+/* Create value axis */
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-var chart = AmCharts.makeChart( "chartdiv", {
+/* Create series */
+var series1 = chart.series.push(new am4charts.LineSeries());
+series1.dataFields.valueY = "cars";
+series1.dataFields.categoryX = "year";
+series1.name = "Cars";
+series1.strokeWidth = 3;
+series1.tensionX = 0.7;
+series1.tooltipText = "{categoryX}: [bold]{valueY}[/]";
 
-  "type": "stock",
-  "theme": "light",
+var series2 = chart.series.push(new am4charts.LineSeries());
+series2.dataFields.valueY = "motorcycles";
+series2.dataFields.categoryX = "year";
+series2.name = "Motorcycles";
+series2.strokeWidth = 3;
+series2.tensionX = 0.7;
+series2.tooltipText = "{categoryX}: [bold]{valueY}[/]";
 
-  "categoryAxesSettings": {
-    "minPeriod": "mm"
-  },
+var series3 = chart.series.push(new am4charts.LineSeries());
+series3.dataFields.valueY = "bicycles";
+series3.dataFields.categoryX = "year";
+series3.name = "Bicycles";
+series3.strokeWidth = 3;
+series3.tensionX = 0.7;
+series3.tooltipText = "{categoryX}: [bold]{valueY}[/]";
 
-  "dataSets": [ {
-    "color": "#b0de09",
-    "fieldMappings": [ {
-      "fromField": "value",
-      "toField": "value"
-    }, {
-      "fromField": "volume",
-      "toField": "volume"
-    } ],
+/* Add legend */
+chart.legend = new am4charts.Legend();
 
-    "dataProvider": chartData,
-    "categoryField": "date"
-  } ],
-
-
-  "panels": [ {
-      "titles": [ {
-        "text": "Panel title: "
-      } ],
-      "showCategoryAxis": false,
-      "title": "Value",
-      "percentHeight": 70,
-
-      "stockGraphs": [ {
-        "id": "g1",
-        "valueField": "value",
-        "type": "smoothedLine",
-        "lineThickness": 2,
-        "bullet": "round"
-      } ],
-
-
-      "stockLegend": {
-        "markerType": "none"
-      }
-    },
-
-    {
-      "title": "Volume",
-      "percentHeight": 30,
-      "stockGraphs": [ {
-        "valueField": "volume",
-        "type": "column",
-        "cornerRadiusTop": 2,
-        "fillAlphas": 1
-      } ],
-
-      "stockLegend": {
-        "markerType": "none"
-      }
-    }
-  ],
-
-  "chartScrollbarSettings": {
-    "graph": "g1",
-    "usePeriod": "10mm",
-  },
-
-  "chartCursorSettings": {
-    "valueBalloonsEnabled": true
-  },
-
-  "periodSelector": {
-    "position": "bottom",
-    "dateFormat": "YYYY-MM-DD JJ:NN",
-    "inputFieldWidth": 150,
-    "periods": [ {
-      "period": "hh",
-      "count": 1,
-      "label": "1 hour",
-      "selected": true
-
-    }, {
-      "period": "hh",
-      "count": 2,
-      "label": "2 hours"
-    }, {
-      "period": "hh",
-      "count": 5,
-      "label": "5 hour"
-    }, {
-      "period": "hh",
-      "count": 12,
-      "label": "12 hours"
-    }, {
-      "period": "MAX",
-      "label": "MAX"
-    } ]
-  },
-
-  "panelsSettings": {
-    "usePrefixes": true
-  }
-} );
-
-chart.addListener( "rendered", function( e ) {
-  chart.addListener( "zoomed", function( e ) {
-    var dates = [
-      AmCharts.formatDate( e.startDate, "YYYY-MM-DD HH:NN" ),
-      AmCharts.formatDate( e.endDate, "YYYY-MM-DD HH:NN" )
-    ];
-
-    // Avoid double callings
-    clearTimeout( chart.panelUpdater );
-    chart.panelUpdater = setTimeout( function() {
-      for ( i1 in e.chart.panels ) {
-        var panel = e.chart.panels[ i1 ];
-        if ( panel.titles.length ) {
-          panel.titles[ 0 ].text = dates.join( " - " );
-          panel.validateData();
-        }
-      }
-    }, 0 );
-  } );
-} );
+/* Create a cursor */
+chart.cursor = new am4charts.XYCursor();

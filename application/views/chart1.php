@@ -1,217 +1,245 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// $json_data = json_encode ($one_year_data);
-// var_dump ($json_data);
-// echo "<br>";
-// var_dump($one_year_data);
-// exit;
+
 ?>
 
-<!-- Styles
-<style>
-/* body {
-	font-family: Verdana;
-	font-size: 12px;
-	padding: 10px;
-} */
 
-#chartdiv, #chartdiv2, #chartdiv3{
-	width	: 50%;
-	height	: 420px;
-	font-size	: 11px;
-}	
-</style>
--->
 
-<script>
-	// var site_data = <?= json_encode($one_year_data) ?>;
-	// var depth_data = [];
-	// site_data.forEach (function(item, idx) {
-	// 	depth_data.push (item.depth);
-	// });
-	// console.log(depth_data);
-</script>
+<!-- <script>
 
-<!-- Resources -->
-<!--
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
--->
-<!-- <div id="chartdiv"></div> -->
+</script> -->
+
 
 <!-- Chart code -->
 <script>
+
 	var site_data = <?= json_encode($one_year_data) ?>;
-	var depth_data = [];
-	site_data.forEach (function(item, idx) {
-		depth_data.push (item.depth);
-	});
+	var layer = <?= $layer ?>;
 
 
-	function sub_chart_setting(series, text1, text2) {
+
+	function sub_setting_chart2(series, text1, color) {
 		series.dataFields.valueY = text1;
 		series.dataFields.dateX = "date";
 		series.strokeWidth = 2;
 		series.minBulletDistance = 20;
-		series.tooltipText = "{dateX} = [bold]{" + text1 + "}[/]m";
+		series.tooltipText = "{dateX} = [bold]{" + text1 + "}[/]";
 		series.tooltip.pointerOrientation = "horizontal";
 		series.tooltip.background.cornerRadius = 10;
 		series.tooltip.background.fillOpacity = 1;
 		series.tooltip.label.padding(12,12,12,12)
+		series.stroke = color;
+		series.tooltip.getFillFromObject = false;
+		series.tooltip.background.fill = color;
 	}
 
+	function sub_setting_chart (argu) {
+		var chart = am4core.create(argu.chartdiv_name, am4charts.XYChart);
+
+		chart.padding(0, 40, 80, 40);
+
+		// Add data
+		chart.data = argu.raw_data;
+
+		chart.dateFormatter.inputDateFormat = "yyyy-MM-dd hh:ii:ss";
+
+		// Create axes
+		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+		dateAxis.renderer.minGridDistance = 50;
+		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+		// Create series
+		var series = chart.series.push(new am4charts.LineSeries());
+		sub_setting_chart2 (series, argu.items[0], am4core.color(<?php echo "\"". $this->chart_title_bg_color[0] . "\""; ?>));
+		var series2 = chart.series.push(new am4charts.LineSeries());
+		sub_setting_chart2 (series2, argu.items[1], am4core.color(<?php echo "\"". $this->chart_title_bg_color[1] . "\""; ?>));
+
+		var series3 = chart.series.push(new am4charts.LineSeries());
+		sub_setting_chart2 (series3, argu.items[2], am4core.color(<?php echo "\"". $this->chart_title_bg_color[2] . "\""; ?>));
+
+		var layer3_name = ["표층", "중층", "저층"];
+		var layer4_name = ["외측표층", "내측표층", "내측중층", "내측저층"];
+		console.log (argu);
+
+		if (argu.layer == 4) {
+			var series4 = chart.series.push(new am4charts.LineSeries());
+			sub_setting_chart2 (series4, argu.items[3], am4core.color(<?php echo "\"". $this->chart_title_bg_color[3] . "\""; ?>));
+			series.name = layer4_name[0];
+			series2.name = layer4_name[1];
+			series3.name = layer4_name[2];
+			series4.name = layer4_name[3];
+		}
+		else {
+			series.name = layer3_name[0];
+			series2.name = layer3_name[1];
+			series3.name = layer3_name[2];
+		}
+
+		// Add scrollbar
+		chart.scrollbarX = new am4charts.XYChartScrollbar();
+		chart.scrollbarX.series.push(series);
+		chart.scrollbarX.series.push(series2);
+		chart.scrollbarX.series.push(series3);
+		if (argu.layer == 4) {
+			chart.scrollbarX.series.push(series4);
+		}
+		chart.scrollbarY = new am4charts.XYChartScrollbar();
+
+		// Add cursor
+		chart.cursor = new am4charts.XYCursor();
+		chart.cursor.xAxis = dateAxis;
+	
+		/* Add legend */
+		chart.legend = new am4charts.Legend();
+}
+
+	function setting_depth_chart () {
+
+		var depth_data = [];
+		site_data.forEach (function(item, idx) {
+			depth_data.push (item.depth);
+		});
+
+		var argu = {
+			"items" :  ['depth1', 'depth2', 'depth3', 'depth4'],
+			"chartdiv_name" : "chartdiv1",
+			"raw_data" : depth_data,
+			"layer" : layer
+		};
+
+		sub_setting_chart (argu);
+	}
+	
+
+	function setting_temperature_chart () {
+
+		var temperature_data = [];
+		site_data.forEach (function(item, idx) {
+			temperature_data.push (item.temperature);
+		});
+
+		var argu = {
+			"items" :  ['temperature1', 'temperature2', 'temperature3', 'temperature4'],
+			"chartdiv_name" : "chartdiv2",
+			"raw_data" : temperature_data,
+			"layer" : layer
+		};
+
+		sub_setting_chart (argu);
+	}
+	
+	function setting_salinity_chart () {
+		var salinity_data = [];
+		site_data.forEach (function(item, idx) {
+			salinity_data.push (item.salinity);
+		});
+
+		var argu = {
+			"items" :  ['salinity1', 'salinity2', 'salinity3', 'salinity4'],
+			"chartdiv_name" : "chartdiv3",
+			"raw_data" : salinity_data,
+			"layer" : layer
+		};
+
+		sub_setting_chart (argu);
+	}
+	
+	function setting_oxygen_chart () {
+		var oxygen_data = [];
+		site_data.forEach (function(item, idx) {
+			oxygen_data.push (item.oxygen);
+		});
+
+		var argu = {
+			"items" :  ['oxygen1', 'oxygen2', 'oxygen3', 'oxygen4'],
+			"chartdiv_name" : "chartdiv4",
+			"raw_data" : oxygen_data,
+			"layer" : layer
+		};
+
+		sub_setting_chart (argu);
+		
+	}
+	
 	am4core.ready(function() {
 
 		// Themes begin
 		am4core.useTheme(am4themes_animated);
 		// Themes end
 
-		// Create chart instance
-		var chart = am4core.create("chartdiv", am4charts.XYChart);
-
-		// Add data
-		chart.data = depth_data;
-
-		
-		chart.dateFormatter.inputDateFormat = "yyyy-MM-dd hh:ii:ss";
-
-
-		// Create axes
-		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-		dateAxis.renderer.minGridDistance = 50;
-		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-		
-		// Create series
-		var series = chart.series.push(new am4charts.LineSeries());
-		sub_chart_setting (series, "depth1", "표층 {depth1}");
-
-		var series2 = chart.series.push(new am4charts.LineSeries());
-		sub_chart_setting (series2, "depth2", "중층 {depth2}");
-
-		var series3 = chart.series.push(new am4charts.LineSeries());
-		sub_chart_setting (series3, "depth3", "저층 {depth3}");
-
-		// Add scrollbar
-		chart.scrollbarX = new am4charts.XYChartScrollbar();
-		chart.scrollbarX.series.push(series3);
-
-		// Add cursor
-		chart.cursor = new am4charts.XYCursor();
-		chart.cursor.xAxis = dateAxis;
-		// chart.cursor.snapToSeries = series3;
+		setting_depth_chart();
+		setting_temperature_chart();
+		setting_salinity_chart();
+		setting_oxygen_chart();
 
 	}); // end am4core.ready()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// function sub_chart_setting(chart, series, dateAxis) {
-	// 	// Make bullets grow on hover
-	// 	var bullet = series.bullets.push(new am4charts.CircleBullet());
-	// 	bullet.circle.strokeWidth = 2;
-	// 	bullet.circle.radius = 4;
-	// 	bullet.circle.fill = am4core.color("#fff");
-
-	// 	var bullethover = bullet.states.create("hover");
-	// 	bullethover.properties.scale = 1.3;
-
-	// 	// Make a panning cursor
-	// 	chart.cursor = new am4charts.XYCursor();
-	// 	chart.cursor.behavior = "panXY";
-	// 	chart.cursor.xAxis = dateAxis;
-	// 	chart.cursor.snapToSeries = series;
-
-	// 	// Create vertical scrollbar and place it before the value axis
-	// 	chart.scrollbarY = new am4core.Scrollbar();
-	// 	chart.scrollbarY.parent = chart.leftAxesContainer;
-	// 	chart.scrollbarY.toBack();
-
-	// 	// Create a horizontal scrollbar with previe and place it underneath the date axis
-	// 	chart.scrollbarX = new am4charts.XYChartScrollbar();
-	// 	chart.scrollbarX.series.push(series);
-	// 	chart.scrollbarX.parent = chart.bottomAxesContainer;
-
-	// 	dateAxis.start = 0.79;
-	// 	dateAxis.keepSelection = true;
-
-	// 	return;
-	// }
-
-	// am4core.ready(function() {
-
-	// 	// Themes begin
-	// 	am4core.useTheme(am4themes_animated);
-	// 	// Themes end
-
-	// 	// Create chart instance
-	// 	var chart = am4core.create("chartdiv", am4charts.XYChart);
-
-	// 	chart.data = depth_data;
-
-	// 	// Set input format for the dates
-	// 	chart.dateFormatter.inputDateFormat = "yyyy-MM-dd hh:ii:ss";
-
-	// 	// Create axes
-	// 	var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-	// 	var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-	// 	// Create series
-	// 	var series = chart.series.push(new am4charts.LineSeries());
-	// 	series.dataFields.valueY = "depth1";
-	// 	series.dataFields.dateX = "date";
-	// 	series.tooltipText = "{depth1}"
-	// 	series.strokeWidth = 2;
-	// 	series.minBulletDistance = 15;
-		
-	// 	var series2 = chart.series.push(new am4charts.LineSeries());
-	// 	series2.dataFields.valueY = "depth2";
-	// 	series2.dataFields.dateX = "date";
-	// 	series2.tooltipText = "{depth2}"
-	// 	series2.strokeWidth = 2;
-	// 	series2.minBulletDistance = 15;
-		
-	// 	var series3 = chart.series.push(new am4charts.LineSeries());
-	// 	series3.dataFields.valueY = "depth3";
-	// 	series3.dataFields.dateX = "date";
-	// 	series3.tooltipText = "{depth3}"
-	// 	series3.strokeWidth = 2;
-	// 	series3.minBulletDistance = 15;
-		
-	// 	// var series4 = chart.series.push(new am4charts.LineSeries());
-	// 	// series4.dataFields.valueY = "depth4";
-	// 	// series4.dataFields.dateX = "date";
-	// 	// series4.tooltipText = "{depth4}"
-	// 	// series4.strokeWidth = 2;
-	// 	// series4.minBulletDistance = 15;
-		
-	// 	sub_chart_setting(chart, series, dateAxis);
-	// 	sub_chart_setting(chart, series2, dateAxis);
-	// 	// Drop-shaped tooltips
-	// 	// series.tooltip.background.cornerRadius = 20;
-	// 	// series.tooltip.background.strokeOpacity = 0;
-	// 	// series.tooltip.pointerOrientation = "vertical";
-	// 	// series.tooltip.label.minWidth = 40;
-	// 	// series.tooltip.label.minHeight = 40;
-	// 	// series.tooltip.label.textAlign = "middle";
-	// 	// series.tooltip.label.textValign = "middle";
-
-	// }); // end am4core.ready()
 </script>
 
+<?php
+function chart_title_stroke ($layer)
+{
+	if ($layer < 4) {
+		echo "
+		<span class=\"chart_title_layer1\">표층</span>
+		<span class=\"chart_title_layer2\">중층</span>
+		<span class=\"chart_title_layer3\">저층</span>
+		";
+	}
+	else {
+		echo "
+		<span class=\"chart_title_layer1\">외측표층</span>
+		<span class=\"chart_title_layer2\">내측표층</span>
+		<span class=\"chart_title_layer3\">내측중층</span>
+		<span class=\"chart_title_layer4\">내측저층</span>
+		";
+	}
+}
+
+?>
+
+
 <!-- HTML -->
-<div id="chartdiv"></div>
+<h1 class="chart_title0">
+	<span> <?php echo convert_site_name($site); ?> </span>
+	<span style="padding-left:20px">DEPTH</span>
+</h1>
+<div id="chartdiv1"></div>
+
+<h1 class="chart_title1">
+	<span> <?php echo convert_site_name($site); ?> </span>
+	<span style="padding-left:20px">TEMPERATURE</span>
+</h1>
+<div id="chartdiv2"></div>
+
+<h1 class="chart_title1">
+	<span> <?php echo convert_site_name($site); ?> </span>
+	<span style="padding-left:20px">SALINITY</span>
+</h1>
+<div id="chartdiv3"></div>
+
+<h1 class="chart_title1">
+<span> <?php echo convert_site_name($site); ?> </span>
+	<span style="padding-left:20px">OXYGEN</span>
+</h1>
+<div id="chartdiv4"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
