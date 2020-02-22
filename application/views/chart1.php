@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		sub_setting_chart2 (series3, argu.items[2], am4core.color(<?php echo "\"". $this->chart_title_bg_color[2] . "\""; ?>));
 
 		var layer3_name = ["표층", "중층", "저층"];
-		var layer4_name = ["외측표층", "내측표층", "내측중층", "내측저층"];
+		var layer4_name = ["내측표층", "외측표층", "외측중층", "외측저층"];
 
 		if (argu.layer == 4) {
 			var series4 = chart.series.push(new am4charts.LineSeries());

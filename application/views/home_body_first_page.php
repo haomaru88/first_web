@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function is_gematek_site_name ($name) {
+// function is_gematek_site_name ($name) {
 
-   $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
+//    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
 
-   if (in_array($name, $gematek_site_name)) {
-      return OK;
-   }
-   return NG;
-}
+//    if (in_array($name, $gematek_site_name)) {
+//       return OK;
+//    }
+//    return NG;
+// }
 
 
 function check_sensor_value1 ($key, $item)
@@ -113,7 +113,7 @@ function print_table_row($para)
                               if ($ret == NG) {
                                  echo "<td class='blink'>";
                                  if (!$playing) {
-                                    // echo "<audio autoplay='autoplay'> <source src='/assets/siren.mp3' type='audio/mpeg' /> </audio>";
+                                    echo "<embed src='/assets/siren.mp3' autostart='true' loop='false' hidden='false'>";
                                     $playing = 1;
                                  }
                               }
