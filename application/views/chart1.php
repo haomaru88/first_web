@@ -48,6 +48,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 		dateAxis.renderer.minGridDistance = 50;
 		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		if (argu.title == 'depth') {
+			valueAxis.renderer.inversed = true;
+		}
 
 		// Create series
 		var series = chart.series.push(new am4charts.LineSeries());
@@ -92,6 +95,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	
 		/* Add legend */
 		chart.legend = new am4charts.Legend();
+
+		// chart.events.on("ready", function(ev) {
+		// 	valueAxis.min = valueAxis.minZoomed;
+		// 	valueAxis.max = valueAxis.maxZoomed;
+		// });
+
+		// // Pre-zoom
+		// chart.events.on("ready", function () {
+		// 	dateAxis.zoomToValues(7, 19, true);
+		// });
 }
 
 	function setting_depth_chart () {
@@ -105,10 +118,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			"items" :  ['depth1', 'depth2', 'depth3', 'depth4'],
 			"chartdiv_name" : "chartdiv1",
 			"raw_data" : depth_data,
-			"layer" : layer
+			"layer" : layer,
+			"title" : 'depth'
 		};
 
 		sub_setting_chart (argu);
+
 	}
 	
 
@@ -123,7 +138,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			"items" :  ['temperature1', 'temperature2', 'temperature3', 'temperature4'],
 			"chartdiv_name" : "chartdiv2",
 			"raw_data" : temperature_data,
-			"layer" : layer
+			"layer" : layer,
+			"title" : 'temperature'
 		};
 
 		sub_setting_chart (argu);
@@ -139,7 +155,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			"items" :  ['salinity1', 'salinity2', 'salinity3', 'salinity4'],
 			"chartdiv_name" : "chartdiv3",
 			"raw_data" : salinity_data,
-			"layer" : layer
+			"layer" : layer,
+			"title" : 'salinity'
 		};
 
 		sub_setting_chart (argu);
@@ -155,7 +172,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			"items" :  ['oxygen1', 'oxygen2', 'oxygen3', 'oxygen4'],
 			"chartdiv_name" : "chartdiv4",
 			"raw_data" : oxygen_data,
-			"layer" : layer
+			"layer" : layer,
+			"title" : 'oxygen'
 		};
 
 		sub_setting_chart (argu);
