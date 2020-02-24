@@ -16,8 +16,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	var site_data = <?= json_encode($one_year_data) ?>;
 	var layer = <?= $layer ?>;
-
-
+	$(function() {
+		$("#metismenu").metisMenu({
+			toggle: false
+		});
+	});
 
 	function sub_setting_chart2(series, text1, color) {
 		series.dataFields.valueY = text1;
