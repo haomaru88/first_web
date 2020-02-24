@@ -30,9 +30,7 @@ class Web_monitor extends CI_Controller
 		if ($site==100 || $index==100) {
 			exit;
 		}
-		var_dump($site);
-		var_dump($index);
-		exit;
+
 		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_one_year_data($site);
 		$imsi += ['content_filename' => 'chart1.php'];
