@@ -24,7 +24,15 @@ class Web_monitor extends CI_Controller
 		// $this->load->view('home_footer');
 	}
 	
-	public function chart($site) {
+	public function chart() {
+		$site = $this->uri->rsegment(3, 100);
+		$index = $this->uri->rsegment(4, 100);
+		if ($site==100 || $index==100) {
+			exit;
+		}
+		var_dump($site);
+		var_dump($index);
+		exit;
 		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_one_year_data($site);
 		$imsi += ['content_filename' => 'chart1.php'];

@@ -44,8 +44,9 @@ function convert_site_name ($name) {
                   <li>
                      <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Chart Data</span></a>
                      <ul class='collapse'>
-                     <?php foreach ($para as $item): ?>
-                        <li> <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
+                     <?php foreach ($para as $key => $item): ?>
+                        <!-- <li> <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>"> <?=convert_site_name($item['site_name'])?> </a> </li> -->
+                        <li>  <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>/<?=$key?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
                      <?php endforeach; ?>
                      </ul>
                   </li>
