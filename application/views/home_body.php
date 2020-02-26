@@ -71,7 +71,7 @@ function convert_site_name ($name) {
 
 <div class="page-container">
    <!-- sidebar menu area start -->
-   <?php print_sidebar_menu($buoy_data); ?>
+   <?php print_sidebar_menu($buoy_data, $sidebar_index); ?>
    <!-- sidebar menu area end -->
    <!-- main content area start -->
    <div class="main-content">
