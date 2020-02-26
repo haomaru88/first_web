@@ -30,7 +30,7 @@ function convert_site_name ($name) {
 }
 ?>
 
-<?php function print_sidebar_menu($para) { ?>
+<?php function print_sidebar_menu($para, $sidebar_index) { ?>
    <div class='sidebar-menu'>
       <div class='sidebar-header'>
          <div class='logo' style='width: 200px'>
@@ -41,12 +41,11 @@ function convert_site_name ($name) {
          <div class='menu-inner'>
             <nav>
                <ul class='metismenu' id='menu'>
-                  <li>
+                  <li class='active'>
                      <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Chart Data</span></a>
                      <ul class='collapse'>
                      <?php foreach ($para as $key => $item): ?>
-                        <!-- <li> <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>"> <?=convert_site_name($item['site_name'])?> </a> </li> -->
-                        <li>  <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>/<?=$key?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
+                        <li <?php echo $key==$sidebar_index ? "class='active'" : ''; ?>>  <a href="/index.php/web_monitor/chart/<?=$item['site_name']?>/<?=$key?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
                      <?php endforeach; ?>
                      </ul>
                   </li>
@@ -71,7 +70,7 @@ function convert_site_name ($name) {
 
 <div class="page-container">
    <!-- sidebar menu area start -->
-   <?php print_sidebar_menu($buoy_data, $sidebar_index); ?>
+   <?php print_sidebar_menu($buoy_data, $sidebar_index-1); ?>
    <!-- sidebar menu area end -->
    <!-- main content area start -->
    <div class="main-content">

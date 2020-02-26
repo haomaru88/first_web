@@ -198,51 +198,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 
 <?php
-function chart_title_stroke ($layer)
-{
-	if ($layer < 4) {
-		echo "
-		<span class=\"chart_title_layer1\">표층</span>
-		<span class=\"chart_title_layer2\">중층</span>
-		<span class=\"chart_title_layer3\">저층</span>
-		";
-	}
-	else {
-		echo "
-		<span class=\"chart_title_layer1\">외측표층</span>
-		<span class=\"chart_title_layer2\">내측표층</span>
-		<span class=\"chart_title_layer3\">내측중층</span>
-		<span class=\"chart_title_layer4\">내측저층</span>
-		";
-	}
-}
-
+// function chart_title_stroke ($layer)
+// {
+// 	if ($layer < 4) {
+// 		echo "
+// 		<span class=\"chart_title_layer1\">표층</span>
+// 		<span class=\"chart_title_layer2\">중층</span>
+// 		<span class=\"chart_title_layer3\">저층</span>
+// 		";
+// 	}
+// 	else {
+// 		echo "
+// 		<span class=\"chart_title_layer1\">외측표층</span>
+// 		<span class=\"chart_title_layer2\">내측표층</span>
+// 		<span class=\"chart_title_layer3\">내측중층</span>
+// 		<span class=\"chart_title_layer4\">내측저층</span>
+// 		";
+// 	}
+// }
 ?>
 
 
 <!-- HTML -->
-<h1 class="chart_title0">
+<h2 class="chart_title0">
 	<span> <?php echo convert_site_name($site); ?> </span>
 	<span style="padding-left:20px">DEPTH</span>
-</h1>
+</h2>
 <div id="chartdiv1"></div>
 
-<h1 class="chart_title1">
+<h2 class="chart_title1">
 	<span> <?php echo convert_site_name($site); ?> </span>
 	<span style="padding-left:20px">TEMPERATURE</span>
-</h1>
+</h2>
 <div id="chartdiv2"></div>
 
-<h1 class="chart_title1">
+<h2 class="chart_title1">
 	<span> <?php echo convert_site_name($site); ?> </span>
 	<span style="padding-left:20px">SALINITY</span>
-</h1>
+</h2>
 <div id="chartdiv3"></div>
 
-<h1 class="chart_title1">
+<h2 class="chart_title1">
 <span> <?php echo convert_site_name($site); ?> </span>
 	<span style="padding-left:20px">OXYGEN</span>
-</h1>
+</h2>
 <div id="chartdiv4"></div>
 
 
