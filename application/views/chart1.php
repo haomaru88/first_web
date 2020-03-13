@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 
 	var site_data = <?= json_encode($one_year_data) ?>;
+
 	var layer = <?= $layer ?>;
 	// $(function() {
 	// 	$("#metismenu").metisMenu({
