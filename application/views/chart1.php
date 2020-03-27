@@ -109,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		// chart.events.on("ready", function () {
 		// 	dateAxis.zoomToValues(7, 19, true);
 		// });
-}
+	}
 
 	function setting_depth_chart () {
 
