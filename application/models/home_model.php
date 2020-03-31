@@ -136,7 +136,8 @@ class Home_model extends CI_Model
 
       $para += $this->get_latest_data();
       $prev_one_year = date_create();  // 현재 날짜를 얻는다.
-      date_sub($prev_one_year, date_interval_create_from_date_string('4 month'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
+      date_sub($prev_one_year, date_interval_create_from_date_string('5 month'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
+      // date_sub($prev_one_year, date_interval_create_from_date_string('1 year'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
 
       $target_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
 
