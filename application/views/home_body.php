@@ -34,7 +34,7 @@ function convert_site_name ($name) {
    <div class='sidebar-menu'>
       <div class='sidebar-header'>
          <div class='logo' style='width: 200px'>
-            <a href='http://localhost' style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
+            <a href='http://15.164.117.191' style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
          </div>
       </div>
       <div class='main-menu'>
@@ -86,7 +86,7 @@ function convert_site_name ($name) {
                </div>
             </div>
             <div class="row col-md-10 col-sm-10 clearfix">
-               <span><a href="http://localhost/index.php"  title="Gematek" style="margin: 0 0 0 30px"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
+               <span><a href="http://15.164.117.191/index.php"  title="Gematek" style="margin: 0 0 0 30px"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
                <span style="font-size: x-large; font-weight: bolder; color: #0e0d79; margin: 8px 0 0 20px">빈산소 수괴 관측 시스템</span>
             </div>
             <!-- profile info & task notification -->
