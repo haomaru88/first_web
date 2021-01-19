@@ -98,7 +98,7 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 //	$system_path = 'e:/Project/Workbench/20200108_WebMonitor/system';
-	$system_path = 'c:/first_web/system';
+	$system_path = '/var/www/first_web/system';
 
 /*
  *---------------------------------------------------------------
@@ -116,7 +116,7 @@ switch (ENVIRONMENT)
  * NO TRAILING SLASH!
  */
 //	$application_folder = 'e:/Project/Workbench/20200108_WebMonitor/application';
-	$application_folder = 'c:/first_web/application';
+	$application_folder = '/var/www/first_web/application';
 
 /*
  *---------------------------------------------------------------
@@ -133,7 +133,7 @@ switch (ENVIRONMENT)
  * NO TRAILING SLASH!
  */
 //	$view_folder = 'e:/Project/Workbench/20200108_WebMonitor/application/views';
-	$view_folder = 'c:/first_web/application/views';
+	$view_folder = '/var/www/first_web/application/views';
 
 
 /*
