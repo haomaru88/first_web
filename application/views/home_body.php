@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // define ("OK", 0);
 // define ("NG", -1);
 
-global $serverIP;
+// global $serverIP;
 
 function convert_site_name ($name) {
    // $site_name = array ('AI51', 'AI52', 'AI53', 'AI54', 'AI56', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'ZI45');
