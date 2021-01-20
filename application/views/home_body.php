@@ -34,7 +34,7 @@ function convert_site_name ($name) {
    <div class='sidebar-menu'>
       <div class='sidebar-header'>
          <div class='logo' style='width: 200px'>
-            <a href='http://15.164.117.191' style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
+            <a href='http://15.164.117.191' style='color: white; font-size: 25px; text-align: center;'>Monitoring System <?php echo $_SERVER['SERVER_ADDR'] ?> </a>
          </div>
       </div>
       <div class='main-menu'>
