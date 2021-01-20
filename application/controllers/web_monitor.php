@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// $serverIP = $_SERVER['SERVER_ADDR'];
+// $ec2IP = 'http://15.165.214.117';
+// $IsLocalServer = TRUE;
+
 class Web_monitor extends CI_Controller
 {
 	public $chart_title_bg_color = [
@@ -13,8 +17,12 @@ class Web_monitor extends CI_Controller
 	public function __construct() {
       parent::__construct();
 	}
-
+	
 	public function index() {
+		// if ($serverIP != "127.0.0.1" && $serverIP != "::1") {
+		// 	$
+		// }
+
 		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_latest_data();
 		$imsi += ['content_filename' => 'home_body_first_page.php'];
