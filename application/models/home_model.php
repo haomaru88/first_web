@@ -136,6 +136,7 @@ class Home_model extends CI_Model
 
       $para += $this->get_latest_data();
       $prev_one_year = date_create("2019-12-02");
+      $end_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
       // $prev_one_year = date_create();  // 현재 날짜를 얻는다.
       date_sub($prev_one_year, date_interval_create_from_date_string('1 week'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
       // date_sub($prev_one_year, date_interval_create_from_date_string('1 year'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
@@ -144,7 +145,7 @@ class Home_model extends CI_Model
 
       $this->db->order_by("date", "asc");
       $this->db->order_by("time", "asc");
-      $where_clause = array('site_name'=>$site, 'date >='=>$target_day);
+      $where_clause = array('site_name'=>$site, 'date >'=>$target_day, 'date <='=>$end_day);
 
       // 19-09-13 ~ 19-07-15 까지 지오시스템에서 지마텍 부이로 부터 받은 자료를 GMAIL로 송신하면서 serial_no를 '0'으로 처리하여서
       // 이에 대해 serial_no 값이 0 보다 큰 데이터를 선택한다.
