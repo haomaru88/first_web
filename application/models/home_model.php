@@ -42,8 +42,8 @@ class Home_model extends CI_Model
       parent::__construct();
 
       $this->load->database();
-      $this->table_data = 'table_data';
-      $this->table_index = 'table_index';
+      $this->table_data = 'tdata_2019';
+      $this->table_index = 'tindex_2019';
       // $this->sql1 = "SELECT * FROM {$this->table_index}";
       // $this->mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
    }
