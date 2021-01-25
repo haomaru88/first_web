@@ -1,9 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$serverIP = $_SERVER['SERVER_ADDR'];
-$ec2IP = 'http://15.165.214.117';
-$IsLocalServer = TRUE;
+// $IsLocalServer = TRUE;
 
 class Web_monitor extends CI_Controller
 {
@@ -19,23 +17,30 @@ class Web_monitor extends CI_Controller
 	}
 	
 	public function index() {
-		global $serverIP;
-		global $ec2IP;
-		if ($serverIP != "127.0.0.1" && $serverIP != "::1") {
-			$serverIP = $ec2IP;
-		}
-		else {
-			$serverIP = 'http://'.$serverIP;
-		}
-
 		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_latest_data();
 		$imsi += ['content_filename' => 'home_body_first_page.php'];
 		$imsi['sidebar_index'] = 0;
+		$imsi['server_ip'] = $this->get_server_ip();
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
 		// $this->load->view('home_inner_footer');
 		// $this->load->view('home_footer');
+	}
+
+	public function get_server_ip() {
+		$serverIP = $_SERVER['SERVER_ADDR'];
+		$ec2IP = 'http://15.165.214.117';
+		if ($serverIP != "127.0.0.1" && $serverIP != "::1") {
+			$serverIP = $ec2IP;
+		}
+		else {
+			if ($serverIP == "::1") {
+				$serverIP = "localhost";
+			}
+			$serverIP = 'http://'.$serverIP;
+		}
+		return $serverIP;
 	}
 	
 	public function chart() {

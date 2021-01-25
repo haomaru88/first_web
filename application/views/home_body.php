@@ -32,11 +32,11 @@ function convert_site_name ($name) {
 }
 ?>
 
-<?php function print_sidebar_menu($para, $sidebar_index) { ?>
+<?php function print_sidebar_menu($para, $sidebar_index, $server_ip) { ?>
    <div class='sidebar-menu'>
       <div class='sidebar-header'>
          <div class='logo' style='width: 200px'>
-            <a href=<?php global $serverIP; echo $serverIP ?> style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
+            <a href=<?php echo $server_ip; ?> style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
          </div>
       </div>
       <div class='main-menu'>
@@ -72,7 +72,7 @@ function convert_site_name ($name) {
 
 <div class="page-container">
    <!-- sidebar menu area start -->
-   <?php print_sidebar_menu($buoy_data, $sidebar_index-1); ?>
+   <?php print_sidebar_menu($buoy_data, $sidebar_index-1, $server_ip); ?>
    <!-- sidebar menu area end -->
    <!-- main content area start -->
    <div class="main-content">
@@ -88,7 +88,7 @@ function convert_site_name ($name) {
                </div>
             </div>
             <div class="row col-md-10 col-sm-10 clearfix">
-               <span><a href=<?php global $serverIP; echo $serverIP ?>  title="Gematek" style="margin: 0 0 0 30px"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
+               <span><a href=<?php echo $server_ip; ?>  title="Gematek" style="margin: 0 0 0 30px"> <img src="/assets/images/hd_logo.png" alt="Gematek"></a></span>
                <span style="font-size: x-large; font-weight: bolder; color: #0e0d79; margin: 8px 0 0 20px">빈산소 수괴 관측 시스템</span>
             </div>
             <!-- profile info & task notification -->
