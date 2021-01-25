@@ -54,6 +54,7 @@ class Web_monitor extends CI_Controller
 		$imsi = $this->home_model->get_one_year_data($site);
 		$imsi += ['content_filename' => 'chart1.php'];
 		$imsi['sidebar_index'] = $sb_index;
+		$imsi['server_ip'] = $this->get_server_ip();
 
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
