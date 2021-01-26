@@ -82,7 +82,7 @@ class Web_monitor extends CI_Controller
 			<article>
 			</article>
 	';
-			echo "<input type='button' value='fetch' onclick='fetch(\"/test.txt\").then();'>
+			echo "<input type='button' value='fetch' onclick='fetch(\"/test.txt\").then(console.log('TEST'));'>
 		</body>
 	</html>";
 	}
