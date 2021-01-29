@@ -38,6 +38,7 @@
    font-size: 0.5em;
    color: white;
 }
+
 .chart_title_layer1 {
    background-color: <?php echo $this->chart_title_bg_color[0]; ?>;
 }

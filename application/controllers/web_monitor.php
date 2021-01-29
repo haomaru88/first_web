@@ -3,8 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // $IsLocalServer = TRUE;
 
+const kind_system_name = array (
+	'Oxygen2019', 'Oxygen2020'
+);
+
 class Web_monitor extends CI_Controller
 {
+	// 차트 각 층별 라인의 색깔
 	public $chart_title_bg_color = [
 		"#de0f00",
 		"#c28800",
@@ -12,20 +17,43 @@ class Web_monitor extends CI_Controller
 		"#a600d4"
 	];
 
+	protected $system_name;
+
 	public function __construct() {
       parent::__construct();
 	}
 	
 	public function index() {
-		// $this->load->model('home_model');
+
+		$this->load->view('select');
+		// $imsi = $this->home_model->get_latest_data();
+		// $imsi += ['content_filename' => 'home_body_first_page.php'];
+		// $imsi['sidebar_index'] = 0;
+		// $imsi['server_ip'] = $this->get_server_ip();
+		// $this->load->view('home_header');
+		// $this->load->view('home_body', $imsi);
+	}
+
+	public function oxygen2019() {
+		$this->home_model->set_db_table(kind_system_name[0]);
+
 		$imsi = $this->home_model->get_latest_data();
 		$imsi += ['content_filename' => 'home_body_first_page.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
 		$this->load->view('home_header');
 		$this->load->view('home_body', $imsi);
-		// $this->load->view('home_inner_footer');
-		// $this->load->view('home_footer');
+	}
+
+	public function oxygen2020() {
+		$this->home_model->set_db_table(kind_system_name[1]);
+
+		$imsi = $this->home_model->get_latest_data();
+		$imsi += ['content_filename' => 'home_body_first_page.php'];
+		$imsi['sidebar_index'] = 0;
+		$imsi['server_ip'] = $this->get_server_ip();
+		$this->load->view('home_header');
+		$this->load->view('home_body', $imsi);
 	}
 
 	public function get_server_ip() {

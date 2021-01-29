@@ -14,6 +14,10 @@ function my_dump ($item, $data) {
 	}
 }
 
+function my_info($data) {
+	echo date('[Y-m-d H:i:s]') . ' INFO = ' . $data . PHP_EOL;
+}
+
 function is_gematek_site_name ($name) {
 
    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
@@ -42,10 +46,22 @@ class Home_model extends CI_Model
       parent::__construct();
 
       $this->load->database();
-      $this->table_data = 'tdata_2019';
-      $this->table_index = 'tindex_2019';
-      // $this->sql1 = "SELECT * FROM {$this->table_index}";
-      // $this->mysqli = new mysqli('localhost', 'juno', 'haomaru98', 'gematek_buoy');
+   }
+
+   // 시스템 이름을 인자에 따라 구분하여 DB Table의 이름들을 설정한다.
+   public function set_db_table($name) {
+      if ($name == kind_system_name[0]) {
+         $this->table_data = 'tdata_2019';
+         $this->table_index = 'tindex_2019';
+      }
+      elseif ($name == kind_system_name[1]) {
+         $this->table_data = 'tdata_2020';
+         $this->table_index = 'tindex_2020';
+      }
+      else {
+         my_info('argument Error!!');
+         exit;
+      }
    }
 
    private function make_one_data ($data, $layer_value)
