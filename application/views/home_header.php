@@ -84,11 +84,11 @@
    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
    <style  type="text/css">
-      .sidebar-menu .sidebar-header {
+      .sidebar-header {
          border-bottom: 3px solid gray;
       }
 
-      .sidebar-menu .sidebar-header, .sidebar-menu {
+      .sidebar-header, .sidebar-menu {
          background-color: #0F4C81;
       }
 
