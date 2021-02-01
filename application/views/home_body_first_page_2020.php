@@ -79,7 +79,7 @@ function print_table_row($para)
                   <table class='table text-center'>
                      <?php 
                      if (is_gematek_site_name_2020($para['site_name']) == OK) {
-                        echo "<thead class='table-header-bg'>";
+                        echo "<thead class='table-header-bg2'>";
                      }
                      else {
                         echo "<thead class='table-header-geo'>";
@@ -121,7 +121,7 @@ function print_table_row($para)
                   <table class='table text-center' style='margin-top:1em'>
                      <?php 
                      if (is_gematek_site_name_2020($para['site_name']) == OK) {
-                        echo "<thead class='table-header-bg'>\n";
+                        echo "<thead class='table-header-bg2'>\n";
                      }
                      else {
                         echo "<thead class='table-header-geo'>\n";

@@ -119,6 +119,10 @@
          font-size: 0.95em;
       }
 
+      .table-header-bg2 {
+         background-color: #1AA661;
+         font-size: 0.95em;
+      }
 
       .mt-5 {
          margin-top: 1.5em!important;
@@ -144,6 +148,10 @@
 
       .table-header-geo {
          background-color: #81390f;
+      }
+
+      .table-header-geo2 {
+         background-color: #A61A99;
       }
 
       .blink {
