@@ -37,7 +37,7 @@ class Web_monitor extends CI_Controller
 	public function oxygen2019() {
 		$this->home_model->set_db_table(kind_system_name[0]);
 
-		$imsi = $this->home_model->get_latest_data();
+		$imsi = $this->home_model->get_latest_data_2019();
 		$imsi += ['content_filename' => 'home_body_first_page_2019.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
@@ -48,7 +48,7 @@ class Web_monitor extends CI_Controller
 	public function oxygen2020() {
 		$this->home_model->set_db_table(kind_system_name[1]);
 
-		$imsi = $this->home_model->get_latest_data();
+		$imsi = $this->home_model->get_latest_data_2020();
 		$imsi += ['content_filename' => 'home_body_first_page_2020.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
@@ -71,7 +71,8 @@ class Web_monitor extends CI_Controller
 		return $serverIP;
 	}
 	
-	public function chart() {
+	public function chart_2019() {
+		$this->home_model->set_db_table(kind_system_name[0]);
 		$site = $this->uri->rsegment(3, 100);
 		$sb_index = $this->uri->rsegment(4, 99) + 1;
 		if ($site==100 || $sb_index==100) {
@@ -79,15 +80,32 @@ class Web_monitor extends CI_Controller
 		}
 
 		// $this->load->model('home_model');
-		$imsi = $this->home_model->get_one_year_data($site);
+		$imsi = $this->home_model->get_one_year_data_2019($site);
 		$imsi += ['content_filename' => 'chart1.php'];
 		$imsi['sidebar_index'] = $sb_index;
 		$imsi['server_ip'] = $this->get_server_ip();
 
 		$this->load->view('home_header');
-		$this->load->view('home_body', $imsi);
+		$this->load->view('home_body_2019', $imsi);
 	}
 
+	public function chart_2020() {
+		$this->home_model->set_db_table(kind_system_name[1]);
+		$site = $this->uri->rsegment(3, 100);
+		$sb_index = $this->uri->rsegment(4, 99) + 1;
+		if ($site==100 || $sb_index==100) {
+			exit;
+		}
+
+		// $this->load->model('home_model');
+		$imsi = $this->home_model->get_one_year_data_2020($site);
+		$imsi += ['content_filename' => 'chart1.php'];
+		$imsi['sidebar_index'] = $sb_index;
+		$imsi['server_ip'] = $this->get_server_ip();
+
+		$this->load->view('home_header');
+		$this->load->view('home_body_2020', $imsi);
+	}
 	function get($id){
 		echo '
 		<!DOCTYPE html>

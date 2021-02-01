@@ -18,7 +18,7 @@ function my_info($data) {
 	echo date('[Y-m-d H:i:s]') . ' INFO = ' . $data . PHP_EOL;
 }
 
-function is_gematek_site_name ($name) {
+function is_gematek_site_name_2019 ($name) {
 
    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
 
@@ -28,6 +28,24 @@ function is_gematek_site_name ($name) {
    return NG;
 }
 
+// 진동1 AI53 - 4L
+// 가막1 AI57 - 3L
+// 가막2 AI58 - 3L
+// 당동1 AI59 - 3L
+// 원문1 AI60 - 3L
+// 가조1 AI61 - 4L
+// 당항1 AI65 - 3L
+// 칠천1 AI66 - 3L
+
+function is_gematek_site_name_2020 ($name) {
+
+   $gematek_site_name = array('AI53', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'AI65', 'AI66');
+
+   if (in_array($name, $gematek_site_name)) {
+      return OK;
+   }
+   return NG;
+}
 
 class Home_model extends CI_Model
 {
@@ -89,7 +107,31 @@ class Home_model extends CI_Model
       return $info;
    }
 
-   public function get_latest_data() {
+   public function get_latest_data_2019() {
+      // table_index 테이블에서 데이터를 모두 읽어온다. (사이트 이름을 키로 하여 정렬한다.)
+      $this->db->order_by("site_name", "asc");
+      $query = $this->db->get($this->table_index);
+      $sql_result_1 = $query->result();
+      $para['buoy_data'] = array();
+
+      foreach ($sql_result_1 as $key => $value) {
+         if ($value->site_name == 'uid') { // 사이트 이름이 'uid'이면 스킵한다.
+            continue;
+         }
+
+         // table_index에서 읽어온 데이터에서 last_data_id를 이용하여 table_data에서 해당 사이트의 마지막 Email 자료를 읽어온다.
+         $query = $this->db->get_where($this->table_data, array('id'=>$value->last_data_id));
+         $result = $query->result();
+         $data = $result[0];
+
+         $info = $this->make_one_data ($data, $value->layer);
+
+         array_push ($para['buoy_data'], $info);
+      }
+      return $para;
+   }
+
+   public function get_latest_data_2020() {
       // table_index 테이블에서 데이터를 모두 읽어온다. (사이트 이름을 키로 하여 정렬한다.)
       $this->db->order_by("site_name", "asc");
       $query = $this->db->get($this->table_index);
@@ -144,13 +186,13 @@ class Home_model extends CI_Model
       return $info;
    }
 
-   public function get_one_year_data ($site) {
+   public function get_one_year_data_2019 ($site) {
 
       $query = $this->db->get_where($this->table_index, array('site_name'=>$site));
       $result = $query->result();
       $para['layer'] = $result[0]->layer;
 
-      $para += $this->get_latest_data();
+      $para += $this->get_latest_data_2019();
       $prev_one_year = date_create("2019-12-02");
       $end_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
       // $prev_one_year = date_create();  // 현재 날짜를 얻는다.
@@ -165,7 +207,47 @@ class Home_model extends CI_Model
 
       // 19-09-13 ~ 19-07-15 까지 지오시스템에서 지마텍 부이로 부터 받은 자료를 GMAIL로 송신하면서 serial_no를 '0'으로 처리하여서
       // 이에 대해 serial_no 값이 0 보다 큰 데이터를 선택한다.
-      if (is_gematek_site_name($site) == OK) {
+      if (is_gematek_site_name_2019($site) == OK) {
+         $where_clause['serial_no >'] = 0;
+      }
+
+      $query = $this->db->get_where($this->table_data, $where_clause);
+      $result = $query->result();
+
+      $para['one_year_data'] = array();
+      foreach ($result as $key => $data) {
+         $info = $this->make_one_chart_data($data, $para['layer']);
+         array_push ($para['one_year_data'], $info);
+      }
+
+      $para['site'] = $site;
+      // $query->free_result();
+
+      return $para;
+   }
+
+   public function get_one_year_data_2020 ($site) {
+
+      $query = $this->db->get_where($this->table_index, array('site_name'=>$site));
+      $result = $query->result();
+      $para['layer'] = $result[0]->layer;
+
+      $para += $this->get_latest_data_2020();
+      $prev_one_year = date_create("2020-08-15");
+      $end_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
+      // $prev_one_year = date_create();  // 현재 날짜를 얻는다.
+      date_sub($prev_one_year, date_interval_create_from_date_string('1 month'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
+      // date_sub($prev_one_year, date_interval_create_from_date_string('1 year'));  // 현재 날짜에서 지정된 기간을 뺀다. 1년치 데이터를 얻는다.
+
+      $target_day = date_format($prev_one_year, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
+
+      $this->db->order_by("date", "asc");
+      $this->db->order_by("time", "asc");
+      $where_clause = array('site_name'=>$site, 'date >'=>$target_day, 'date <='=>$end_day);
+
+      // 19-09-13 ~ 19-07-15 까지 지오시스템에서 지마텍 부이로 부터 받은 자료를 GMAIL로 송신하면서 serial_no를 '0'으로 처리하여서
+      // 이에 대해 serial_no 값이 0 보다 큰 데이터를 선택한다.
+      if (is_gematek_site_name_2020($site) == OK) {
          $where_clause['serial_no >'] = 0;
       }
 

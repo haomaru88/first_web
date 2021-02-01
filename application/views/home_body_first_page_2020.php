@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// function is_gematek_site_name ($name) {
-
-//    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
-
-//    if (in_array($name, $gematek_site_name)) {
-//       return OK;
-//    }
-//    return NG;
-// }
-
-
 function check_sensor_value1 ($key, $item)
 {
    $ret = OK;
@@ -89,7 +78,7 @@ function print_table_row($para)
                <div class='table-responsive'>
                   <table class='table text-center'>
                      <?php 
-                     if (is_gematek_site_name($para['site_name']) == OK) {
+                     if (is_gematek_site_name_2020($para['site_name']) == OK) {
                         echo "<thead class='table-header-bg'>";
                      }
                      else {
@@ -131,7 +120,7 @@ function print_table_row($para)
 
                   <table class='table text-center' style='margin-top:1em'>
                      <?php 
-                     if (is_gematek_site_name($para['site_name']) == OK) {
+                     if (is_gematek_site_name_2020($para['site_name']) == OK) {
                         echo "<thead class='table-header-bg'>\n";
                      }
                      else {
@@ -166,8 +155,8 @@ function print_table_row($para)
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04c36ea06d3b1edd0c1e2303ca4fd6c7"></script>
    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04c36ea06d3b1edd0c1e2303ca4fd6c7&libraries=drawing"></script> -->
    <script>
-      var lat = 35.22012;
-      var lng = 129.2432;
+      var lat = 35.0870816;   // 진동1 좌표
+      var lng = 128.4801116;
       var container = document.getElementById('map');
       var options = {
          center: new kakao.maps.LatLng(lat, lng),

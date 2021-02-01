@@ -198,28 +198,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}); // end am4core.ready()
 </script>
 
-<?php
-// function chart_title_stroke ($layer)
-// {
-// 	if ($layer < 4) {
-// 		echo "
-// 		<span class=\"chart_title_layer1\">표층</span>
-// 		<span class=\"chart_title_layer2\">중층</span>
-// 		<span class=\"chart_title_layer3\">저층</span>
-// 		";
-// 	}
-// 	else {
-// 		echo "
-// 		<span class=\"chart_title_layer1\">외측표층</span>
-// 		<span class=\"chart_title_layer2\">내측표층</span>
-// 		<span class=\"chart_title_layer3\">내측중층</span>
-// 		<span class=\"chart_title_layer4\">내측저층</span>
-// 		";
-// 	}
-// }
-?>
-
-
 <!-- HTML -->
 <h2 class="chart_title0">
 	<span> <?php echo convert_site_name($site); ?> </span>

@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// function is_gematek_site_name ($name) {
-
-//    $gematek_site_name = array('AI51', 'AI52', 'AI53', 'AI57', 'AI59', 'ZI45');
-
-//    if (in_array($name, $gematek_site_name)) {
-//       return OK;
-//    }
-//    return NG;
-// }
-
 
 function check_sensor_value1 ($key, $item)
 {
@@ -89,7 +79,7 @@ function print_table_row($para)
                <div class='table-responsive'>
                   <table class='table text-center'>
                      <?php 
-                     if (is_gematek_site_name($para['site_name']) == OK) {
+                     if (is_gematek_site_name_2019($para['site_name']) == OK) {
                         echo "<thead class='table-header-bg'>";
                      }
                      else {
@@ -131,7 +121,7 @@ function print_table_row($para)
 
                   <table class='table text-center' style='margin-top:1em'>
                      <?php 
-                     if (is_gematek_site_name($para['site_name']) == OK) {
+                     if (is_gematek_site_name_2019($para['site_name']) == OK) {
                         echo "<thead class='table-header-bg'>\n";
                      }
                      else {
