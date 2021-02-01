@@ -28,15 +28,6 @@ function is_gematek_site_name_2019 ($name) {
    return NG;
 }
 
-// 진동1 AI53 - 4L
-// 가막1 AI57 - 3L
-// 가막2 AI58 - 3L
-// 당동1 AI59 - 3L
-// 원문1 AI60 - 3L
-// 가조1 AI61 - 4L
-// 당항1 AI65 - 3L
-// 칠천1 AI66 - 3L
-
 function is_gematek_site_name_2020 ($name) {
 
    $gematek_site_name = array('AI53', 'AI57', 'AI58', 'AI59', 'AI60', 'AI61', 'AI65', 'AI66');

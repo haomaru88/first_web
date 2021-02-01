@@ -6,21 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // global $serverIP;
 
-// 진동1 AI53 - 4L
-// 가막1 AI57 - 3L
-// 가막2 AI58 - 3L
-// 당동1 AI59 - 3L
-// 원문1 AI60 - 3L
-// 가조1 AI61 - 4L
-// 당항1 AI65 - 3L
-// 칠천1 AI66 - 3L
-
-// AI51 - 3L
-// AI52 - 3L
-// AI56 - 3L
-// AI63 - 3L
-// AI64 - 3L
-
 function convert_site_name ($name) {
    $new_name = array (
       array ('AI53', '진동1 (AI53)'),
