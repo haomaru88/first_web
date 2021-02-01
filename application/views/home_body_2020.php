@@ -34,8 +34,8 @@ function convert_site_name ($name) {
 ?>
 
 <?php function print_sidebar_menu($para, $sidebar_index, $server_ip) { ?>
-   <div class='sidebar-menu'>
-      <div class='sidebar-header'>
+   <div class='sidebar-menu2 sidebar-menu'>
+      <div class='sidebar-header2 sidebar-header'>
          <div class='logo' style='width: 200px'>
             <a href=<?php echo $server_ip; ?> style='color: white; font-size: 25px; text-align: center;'>Monitoring System</a>
          </div>

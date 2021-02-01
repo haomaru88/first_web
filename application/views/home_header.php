@@ -95,17 +95,9 @@
       .sidebar-menu {
          width: 280px;
       }
-      
-      .sidebar-header .sidebar-header2{
-         border-bottom: 3px solid gray;
-      }
 
-      .sidebar-header .sidebar-header2, .sidebar-menu .sidebar-menu2 {
-         background-color: #1AA661;
-      }
-
-      .sidebar-menu .sidebar-menu2 {
-         width: 280px;
+      .sidebar-header2, .sidebar-menu2 {
+         background-color: #0C4E00;
       }
       
       li {
