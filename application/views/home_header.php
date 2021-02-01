@@ -96,6 +96,18 @@
          width: 280px;
       }
       
+      .sidebar-menu2 .sidebar-header2 {
+         border-bottom: 3px solid gray;
+      }
+
+      .sidebar-menu2 .sidebar-header2, .sidebar-menu2 {
+         background-color: #1AA661;
+      }
+
+      .sidebar-menu2 {
+         width: 280px;
+      }
+      
       li {
          border-bottom: 1px solid;
       }
