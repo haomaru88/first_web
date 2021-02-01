@@ -38,22 +38,22 @@ class Web_monitor extends CI_Controller
 		$this->home_model->set_db_table(kind_system_name[0]);
 
 		$imsi = $this->home_model->get_latest_data();
-		$imsi += ['content_filename' => 'home_body_first_page.php'];
+		$imsi += ['content_filename' => 'home_body_first_page_2019.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
 		$this->load->view('home_header');
-		$this->load->view('home_body', $imsi);
+		$this->load->view('home_body_2019', $imsi);
 	}
 
 	public function oxygen2020() {
 		$this->home_model->set_db_table(kind_system_name[1]);
 
 		$imsi = $this->home_model->get_latest_data();
-		$imsi += ['content_filename' => 'home_body_first_page.php'];
+		$imsi += ['content_filename' => 'home_body_first_page_2020.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
 		$this->load->view('home_header');
-		$this->load->view('home_body', $imsi);
+		$this->load->view('home_body_2020', $imsi);
 	}
 
 	public function get_server_ip() {
