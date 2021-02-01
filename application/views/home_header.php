@@ -96,7 +96,7 @@
          width: 280px;
       }
       
-      .sidebar-menu .sidebar-header {
+      .sidebar-menu .sidebar-header .sidebar-header2{
          border-bottom: 3px solid gray;
       }
 
@@ -104,7 +104,7 @@
          background-color: #1AA661;
       }
 
-      .sidebar-menu2 {
+      .sidebar-menu .sidebar-menu2 {
          width: 280px;
       }
       
