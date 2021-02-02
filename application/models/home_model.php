@@ -128,11 +128,13 @@ class Home_model extends CI_Model
       $query = $this->db->get($this->table_index);
       $sql_result_1 = $query->result();
       $para['buoy_data'] = array();
+      $para['buoy_index_data'] = array();
 
       foreach ($sql_result_1 as $key => $value) {
          if ($value->site_name == 'uid') { // 사이트 이름이 'uid'이면 스킵한다.
             continue;
          }
+         array_push ($para['buoy_index_data'], $value);
 
          // table_index에서 읽어온 데이터에서 last_data_id를 이용하여 table_data에서 해당 사이트의 마지막 Email 자료를 읽어온다.
          $query = $this->db->get_where($this->table_data, array('id'=>$value->last_data_id));

@@ -21,7 +21,7 @@ function convert_site_name ($name) {
       array ('AI56', '자란3 (AI56)'),
       array ('AI63', '통영1 (AI63)'),
       array ('AI64', '거제1 (AI64)')
-);
+   );
 
    $key = array_search($name, array_column($new_name, '0'), true);
    if ($key === FALSE) {
