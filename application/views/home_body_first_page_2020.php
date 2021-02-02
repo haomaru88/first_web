@@ -184,14 +184,13 @@ function print_table_row($para)
       // 마커 이미지의 이미지 주소입니다
       var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png"; 
          
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new kakao.maps.Size(32, 35); 
+      
+      // 마커 이미지를 생성합니다    
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+         
       for (var i = 0; i < positions.length; i ++) {
-         
-         // 마커 이미지의 이미지 크기 입니다
-         var imageSize = new kakao.maps.Size(27, 34); 
-         
-         // 마커 이미지를 생성합니다    
-         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-         
          // 마커를 생성합니다
          var marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
@@ -200,6 +199,28 @@ function print_table_row($para)
             image : markerImage // 마커 이미지 
          });
       }
+
+      map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
+
+      // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      var content =
+         '<div class="customoverlay">' +
+         '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+         '    <span class="title">구의야구공원</span>' +
+         '  </a>' +
+         '</div>';
+
+      // 커스텀 오버레이가 표시될 위치입니다 
+      var position = new kakao.maps.LatLng(37.54699, 127.09598);  
+
+      // 커스텀 오버레이를 생성합니다
+      var customOverlay = new kakao.maps.CustomOverlay({
+         map: map,
+         position: position,
+         content: content,
+         yAnchor: 1 
+      });
+
       </script>
 
    <div class="row">
