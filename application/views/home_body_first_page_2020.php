@@ -151,6 +151,13 @@ function print_table_row($para)
 
    
 <div class="main-content-inner">
+   <style>
+      .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+      .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+      .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+      .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+      .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+   </style>
    <div id="map" style="width:100%; height:400px;"></div>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04c36ea06d3b1edd0c1e2303ca4fd6c7"></script>
    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04c36ea06d3b1edd0c1e2303ca4fd6c7&libraries=drawing"></script> -->
@@ -159,23 +166,24 @@ function print_table_row($para)
       var lng = 128.22814;
 
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-      mapOption = { 
-         center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
-         level: 10 // 지도의 확대 레벨
-      };
+         mapOption = { 
+            center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+            level: 10 // 지도의 확대 레벨
+         };
 
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
       var mapTypeControl = new kakao.maps.MapTypeControl();
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.RIGHT);
+      map.addControl(mapTypeControl, kakao.maps.ControlPosition.LEFT);
 
       var zoomControl = new kakao.maps.ZoomControl();
-      map.addControl (zoomControl, kakao.maps.ControlPosition.RIGHT);      // 마커를 표시할 위치와 title 객체 배열입니다 
+      map.addControl (zoomControl, kakao.maps.ControlPosition.LEFT);      // 마커를 표시할 위치와 title 객체 배열입니다 
 
       var positions = [
          <?php foreach ($buoy_index_data as $item): ?>
          {
             title: '<?= convert_site_name($item->site_name)?>',
+            // content: '<div> <a href="https://map.kakao.com/link/map/11394059" target="_blank"> </div>',
             latlng: new kakao.maps.LatLng(<?=$item->latitude?>, <?=$item->longitude?>)
          },
          <?php endforeach; ?>
@@ -187,8 +195,12 @@ function print_table_row($para)
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(32, 35); 
       
+      // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      var imageOption = {offset: new kakao.maps.Point(13, 70)};
+      
       // 마커 이미지를 생성합니다    
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      // var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption); 
          
       for (var i = 0; i < positions.length; i ++) {
          // 마커를 생성합니다
@@ -202,24 +214,48 @@ function print_table_row($para)
 
       map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
 
+      // 마커가 지도 위에 표시되도록 설정합니다
+      marker.setMap(map);  
+
+
       // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
       var content =
          '<div class="customoverlay">' +
          '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-         '    <span class="title">구의야구공원</span>' +
+         '    <span class="title">테스트</span>' +
          '  </a>' +
          '</div>';
 
       // 커스텀 오버레이가 표시될 위치입니다 
-      var position = new kakao.maps.LatLng(37.54699, 127.09598);  
+      var position;
+      position = new kakao.maps.LatLng(35.004335, 128.62481166666666);  
 
       // 커스텀 오버레이를 생성합니다
       var customOverlay = new kakao.maps.CustomOverlay({
          map: map,
          position: position,
-         content: content,
-         yAnchor: 1 
+         content: '<div class="customoverlay">' +
+                  '  <a href="https://map.kakao.com/link/map/11394059" target="_self">' + 
+                  '     <span class="title">테스트</span>' +
+                  '  </a>' +
+                  '</div>',
+         yAnchor: 0.95
       });
+
+      position = new kakao.maps.LatLng(34.9198, 128.25779);  
+
+      // 커스텀 오버레이를 생성합니다
+      var customOverlay = new kakao.maps.CustomOverlay({
+         map: map,
+         position: position,
+         content: '<div class="customoverlay">' +
+                  '  <a href="https://map.kakao.com/link/map/11394059" target="_self">' + 
+                  '     <span class="title">테스트</span>' +
+                  '  </a>' +
+                  '</div>',
+         yAnchor: 0.95
+      });
+
 
       </script>
 
