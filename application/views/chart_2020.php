@@ -1,15 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-
 ?>
 
-
-
 <!-- <script>
-
 </script> -->
-
 
 <!-- Chart code -->
 <script>
@@ -23,6 +17,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	// 	});
 	// });
 
+	function lookupData(){
+		var durationForm = document.selectDuration;
+		durationForm.submit();
+	}
+	
 	function sub_setting_chart2(series, text1, color) {
 		series.dataFields.valueY = text1;
 		series.dataFields.dateX = "date";
@@ -199,6 +198,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 
 <!-- HTML -->
+<div class="chart_title0">
+	<form name="selectDuration" method="post" style="margin-top:10px;" action="http://127.0.0.1/index.php/web_monitor/phpinfo">
+		<input type="date" name='startDate' max="2020-12-31" min="2020-03-01" value="2020-05-31">
+		<label>&nbsp;~&nbsp;</lable>
+		<input type="date" name='endDate' max="2020-12-31" min="2020-03-01" value="2020-06-10">
+		<label>&nbsp;</lable>
+		<input type="button" onclick="document.selectDuration.submit()" style="background-color: #cbd1d6;" value="    조회    ">
+		<!-- <input type="submit" value="조회"> -->
+		<!-- <input type="hidden" name="loginType" value="admin"> -->
+	</form>
+</div>
+
+
 <h2 class="chart_title0">
 	<span> <?php echo convert_site_name($site); ?> </span>
 	<span style="padding-left:20px">DEPTH</span>
@@ -222,23 +234,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<span style="padding-left:20px">OXYGEN</span>
 </h2>
 <div id="chartdiv4"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

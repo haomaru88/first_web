@@ -1,10 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require 'home_header.php';
+
 // define ("OK", 0);
 // define ("NG", -1);
 
 // global $serverIP;
+$startDate = $this->input->post('startDate');
 
 function convert_site_name ($name) {
    $new_name = array (
@@ -58,7 +61,6 @@ function convert_site_name ($name) {
       </div>
    </div>
 <?php } ?>
-
 
 <body>
 
