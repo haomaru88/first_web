@@ -51,7 +51,7 @@ function convert_site_name ($name) {
                      <a href='javascript:void(0)' aria-expanded='true'><em class='ti-flag'></em><span>Chart Data</span></a>
                      <ul class='collapse'>
                      <?php foreach ($para as $key => $item): ?>
-                        <li <?php echo $key==$sidebar_index ? "class='active'" : ''; ?>>  <a href="/index.php/web_monitor/c2020/<?=$item['site_name']?>/<?=$key?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
+                        <li <?php echo $key==$sidebar_index ? "class='active'" : ''; ?>>  <a href="/index.php/web_monitor/c20/<?=$item['site_name']?>/<?=$key?>"> <?=convert_site_name($item['site_name'])?> </a> </li>
                      <?php endforeach; ?>
                      </ul>
                   </li>
