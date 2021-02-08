@@ -229,7 +229,7 @@ function print_table_row($para)
             position: position,
             content: '<div class="customoverlay">' +
                      // '  <a href="https://map.kakao.com/link/map/11394059" target="_self">' + 
-                     '  <a href="/index.php/web_monitor/c20/<?=$item['site_name']?>/<?=$key?>" target="_self">' +
+                     '  <a href="/index.php/web_monitor/c2020/<?=$item['site_name']?>/<?=$key?>" target="_self">' +
                      '     <span class="title"><?=convert_site_name($item['site_name'])?></span>' +
                      '  </a>' +
                      '</div>',
