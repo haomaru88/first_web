@@ -20,7 +20,7 @@ class Web_monitor extends CI_Controller
 	protected $system_name;
 
 	public function __construct() {
-		parent::__construct();
+      parent::__construct();
 	}
 	
 	public function index() {
@@ -66,9 +66,6 @@ class Web_monitor extends CI_Controller
 	}
 	
 	public function chart_2019() {
-		$t1 = $this->uri->uri_string();
-		$t2 = $this->uri->ruri_string();
-
 		$this->home_model->set_db_table(kind_system_name[0]);
 		$site = $this->uri->rsegment(3, 100);
 		$sb_index = $this->uri->rsegment(4, 99) + 1;
