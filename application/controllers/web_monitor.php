@@ -24,6 +24,7 @@ class Web_monitor extends CI_Controller
 	}
 	
 	public function index() {
+		// $this->load->view('upload_form');
 		$this->load->view('select');
 	}
 
@@ -132,4 +133,7 @@ class Web_monitor extends CI_Controller
 		$test = $this->input->post(NULL, TRUE);
 		phpinfo();
 	}
+
+	// function test() {
+	// }
 }

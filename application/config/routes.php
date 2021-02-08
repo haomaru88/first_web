@@ -52,3 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Web_monitor';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+$route['/index.php/web_monitor/c2020/(:any)/(:num)'] =  function ($p1, $p2)
+{
+	return '/index.php/web_monitor/chart_2020/' . $p1 . '/' . $p2;
+};

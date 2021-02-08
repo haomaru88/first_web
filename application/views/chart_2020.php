@@ -11,11 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	var site_data = <?= json_encode($one_year_data) ?>;
 
 	var layer = <?= $layer ?>;
-	// $(function() {
-	// 	$("#metismenu").metisMenu({
-	// 		toggle: false
-	// 	});
-	// });
 
 	function lookupData(){
 		var durationForm = document.selectDuration;
@@ -195,18 +190,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		setting_oxygen_chart();
 
 	}); // end am4core.ready()
+
+	function submit_calendar() {
+		var form = document.selectDuration;
+		var sd = new Date(form.startDate.value);
+		var ed = new Date(form.endDate.value);
+		var dt = ed - sd;
+		var elapsed = Math.floor(dt / (24*60*60*1000));	// 일자 계산
+
+		// console.log('시작 날짜 : ' + sd + ' , ' + form.startDate.value);
+		// console.log('종료 날짜 : ' + ed + ' , ' + form.endDate.value);
+		// console.log('날짜 간격: ' + elapsed + ', ' + dt);
+
+		if (elapsed < 0 || isNaN(elapsed)) {
+			alert('입력된 날짜에 오류가 있습니다.');
+			return;
+		}
+
+		document.selectDuration.submit()
+	}
+
+	var MaxDate = "2020-12-31";
+	var MinDate = "2020-03-01";
+	function setting_calendar() {
+		document.write('<input type="date" name="startDate" max=' + MaxDate + ' min=' + MinDate + ' value="2020-05-31">');
+		document.write('<label>&nbsp;~&nbsp;</label>');
+		document.write('<input type="date" name="endDate" max=' + MaxDate + ' min=' + MinDate + ' value="2020-06-10">');
+		document.write('<label>&nbsp;</label>');
+		document.write('<input type="button" id="submitClick" onclick="submit_calendar()" style="background-color: #cbddc4;" value="    조회    ">');
+	}
 </script>
 
 <!-- HTML -->
 <div class="chart_title0">
-	<form name="selectDuration" method="post" style="margin-top:10px;" action="http://127.0.0.1/index.php/web_monitor/phpinfo">
-		<input type="date" name='startDate' max="2020-12-31" min="2020-03-01" value="2020-05-31">
-		<label>&nbsp;~&nbsp;</lable>
-		<input type="date" name='endDate' max="2020-12-31" min="2020-03-01" value="2020-06-10">
-		<label>&nbsp;</lable>
-		<input type="button" onclick="document.selectDuration.submit()" style="background-color: #cbd1d6;" value="    조회    ">
-		<!-- <input type="submit" value="조회"> -->
-		<!-- <input type="hidden" name="loginType" value="admin"> -->
+	<form name="selectDuration" method="post" style="margin-top:10px;" action="/index.php/web_monitor/phpinfo">
+		<script type="text/javascript">
+			setting_calendar();
+		</script>
 	</form>
 </div>
 
