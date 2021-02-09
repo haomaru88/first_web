@@ -221,6 +221,23 @@ function print_table_row($para)
 
       var position;
       var customOverlay;
+      
+      // function sendPost(url, params) {
+      //    var form = document.createElement('form');
+      //    form.setAttribute('method', 'post');
+      //    form.setAttribute('action', url);
+      //    document.charset = 'utf-8';
+      //    for (var key in params) {
+      //       var hiddenField = document.createElement('input');
+      //       hiddenField.setAttribute('type', 'hidden');
+      //       hiddenField.setAttribute('name', key);
+      //       hiddenField.setAttribute('value', params[key]);
+      //       form.appendChild(hiddenField);
+      //    }
+      //    document.body.appendChild(form);
+      //    form.submit();
+      // }
+
       <?php foreach ($buoy_data as $key => $item): ?>
          position = new kakao.maps.LatLng(<?=$buoy_index_data[$key]->latitude?>, <?=$buoy_index_data[$key]->longitude?>);
          // 커스텀 오버레이를 생성합니다
@@ -228,8 +245,8 @@ function print_table_row($para)
             map: map,
             position: position,
             content: '<div class="customoverlay">' +
-                     // '  <a href="https://map.kakao.com/link/map/11394059" target="_self">' + 
-                     '  <a href="/index.php/web_monitor/c20/<?=$item['site_name']?>/<?=$key?>" target="_self">' +
+                     // '  <a href="/index.php/web_monitor/c20/<?=$item['site_name']?>/<?=$key?>" target="_self">' +
+                     '  <a href="javascript:void(0);" onclick="sendPost(\'/index.php/web_monitor/c20/<?=$item['site_name']?>/<?= $key ?>\', new Array(sDate, eDate))" target="_self">' +
                      '     <span class="title"><?=convert_site_name($item['site_name'])?></span>' +
                      '  </a>' +
                      '</div>',

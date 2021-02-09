@@ -89,7 +89,11 @@ class Web_monitor extends CI_Controller
 	}
 
 	public function chart_2020() {
+		$sDate = $this->input->post('para0');
+		$eDate = $this->input->post('para1');
+
 		$this->home_model->set_db_table(kind_system_name[1]);
+		
 		$site = $this->uri->rsegment(3, 100);
 		$sb_index = $this->uri->rsegment(4, 99) + 1;
 		if ($site==100 || $sb_index==100) {
@@ -97,15 +101,17 @@ class Web_monitor extends CI_Controller
 		}
 
 		// $this->load->model('home_model');
-		$imsi = $this->home_model->get_one_year_data_2020($site);
+		$imsi = $this->home_model->get_term_data_2020($site, $sDate, $eDate);
 		$imsi += ['content_filename' => 'chart_2020.php'];
 		$imsi['sidebar_index'] = $sb_index;
 		$imsi['server_ip'] = $this->get_server_ip();
+		$imsi['startDate'] = $sDate;
+		$imsi['endDate'] = $eDate;
 
 		$this->load->view('home_header');
 		$this->load->view('home_body_2020', $imsi);
 	}
-	
+
 	function get($id){
 		echo '
 		<!DOCTYPE html>

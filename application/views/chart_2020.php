@@ -17,6 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	var site_data = <?= json_encode($one_year_data) ?>;
 
 	var layer = <?= $layer ?>;
+	sDate = "<?= $startDate ?>";
+	eDate = "<?= $endDate ?>";
 
 	function sub_setting_chart2(series, text1, color) {
 		series.dataFields.valueY = text1;
@@ -194,8 +196,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function submit_calendar() {
 		var form = document.selectDuration;
-		var sd = new Date(form.startDate.value);
-		var ed = new Date(form.endDate.value);
+		var sd = new Date(form.para0.value);
+		var ed = new Date(form.para1.value);
 		var dt = ed - sd;
 		var elapsed = Math.floor(dt / (24*60*60*1000));	// 일자 계산
 
@@ -214,11 +216,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	var MaxDate = "2020-12-31";
 	var MinDate = "2020-03-01";
 	function setting_calendar() {
-		document.write('<input type="date" name="startDate" max=' + MaxDate + ' min=' + MinDate + ' value="2020-05-31">');
+		document.write('<input type="date" name="para0" max=' + MaxDate + ' min=' + MinDate + ' value=' + sDate + '>');
 		document.write('<label>&nbsp;~&nbsp;</label>');
-		document.write('<input type="date" name="endDate" max=' + MaxDate + ' min=' + MinDate + ' value="2020-06-10">');
-		document.write('<label>&nbsp;</label>');
-		document.write('<input type="button" id="submitClick" onclick="submit_calendar()" style="background-color: #cbddc4;" value="    조회    ">');
+		document.write('<input type="date" name="para1" max=' + MaxDate + ' min=' + MinDate + ' value=' + eDate + '>');
+		// document.write('<label>&nbsp;&nbsp;&nbsp;</label>');
+		document.write('<input type="button" class="btn btn-outline-primary btn-sm" id="submitClick" onclick="submit_calendar()" style="margin-bottom: 4px;margin-left: 10px;padding-top: 5px;padding-bottom: 5px;" value="    조회    ">');
 		// document.write('<input type="submit" value="조회">');
 	}
 </script>
@@ -226,7 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- HTML -->
 
 <div class="chart_title0">
-	<form name="selectDuration" method="post" style="margin-top:10px;" action="/index.php/web_monitor/phpinfo">
+	<form name="selectDuration" method="post" style="margin-top:10px;" action="/index.php/web_monitor/c20/<?=$site?>/<?=$sidebar_index-1?>">
 		<script type="text/javascript">
 			setting_calendar();
 		</script>
@@ -256,23 +258,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<span style="padding-left:20px">OXYGEN</span>
 </h2>
 <div id="chartdiv4"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

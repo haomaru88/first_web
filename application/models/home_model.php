@@ -220,7 +220,6 @@ class Home_model extends CI_Model
    }
 
    public function get_one_year_data_2020 ($site) {
-
       $query = $this->db->get_where($this->table_index, array('site_name'=>$site));
       $result = $query->result();
       $para['layer'] = $result[0]->layer;
@@ -237,6 +236,42 @@ class Home_model extends CI_Model
       $this->db->order_by("date", "asc");
       $this->db->order_by("time", "asc");
       $where_clause = array('site_name'=>$site, 'date >'=>$target_day, 'date <='=>$end_day);
+
+      // 19-09-13 ~ 19-07-15 까지 지오시스템에서 지마텍 부이로 부터 받은 자료를 GMAIL로 송신하면서 serial_no를 '0'으로 처리하여서
+      // 이에 대해 serial_no 값이 0 보다 큰 데이터를 선택한다.
+      if (is_gematek_site_name_2020($site) == OK) {
+         $where_clause['serial_no >'] = 0;
+      }
+
+      $query = $this->db->get_where($this->table_data, $where_clause);
+      $result = $query->result();
+
+      $para['one_year_data'] = array();
+      foreach ($result as $key => $data) {
+         $info = $this->make_one_chart_data($data, $para['layer']);
+         array_push ($para['one_year_data'], $info);
+      }
+
+      $para['site'] = $site;
+      // $query->free_result();
+
+      return $para;
+   }
+
+   function get_term_data_2020 ($site, $sDate, $eDate) {
+      $query = $this->db->get_where($this->table_index, array('site_name'=>$site));
+      $result = $query->result();
+      $para['layer'] = $result[0]->layer;
+
+      $para += $this->get_latest_data_2020();
+      // $temp_day = date_create($eDate);
+      // $end_day = date_format($temp_day, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
+      // $temp_day = date_create($sDate);
+      // $target_day = date_format($temp_day, 'Y-m-d');   // 지정된 포멧으로 날짜를 변환한다.
+
+      $this->db->order_by("date", "asc");
+      $this->db->order_by("time", "asc");
+      $where_clause = array('site_name'=>$site, 'date >='=>$sDate, 'date <='=>$eDate);
 
       // 19-09-13 ~ 19-07-15 까지 지오시스템에서 지마텍 부이로 부터 받은 자료를 GMAIL로 송신하면서 serial_no를 '0'으로 처리하여서
       // 이에 대해 serial_no 값이 0 보다 큰 데이터를 선택한다.
