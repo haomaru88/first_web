@@ -1,9 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+
 ?>
 
+
+
 <!-- <script>
+
 </script> -->
+
 
 <!-- Chart code -->
 <script>
@@ -12,11 +18,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	var layer = <?= $layer ?>;
 
-	function lookupData(){
-		var durationForm = document.selectDuration;
-		durationForm.submit();
-	}
-	
 	function sub_setting_chart2(series, text1, color) {
 		series.dataFields.valueY = text1;
 		series.dataFields.dateX = "date";
@@ -218,10 +219,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		document.write('<input type="date" name="endDate" max=' + MaxDate + ' min=' + MinDate + ' value="2020-06-10">');
 		document.write('<label>&nbsp;</label>');
 		document.write('<input type="button" id="submitClick" onclick="submit_calendar()" style="background-color: #cbddc4;" value="    조회    ">');
+		// document.write('<input type="submit" value="조회">');
 	}
 </script>
 
 <!-- HTML -->
+
 <div class="chart_title0">
 	<form name="selectDuration" method="post" style="margin-top:10px;" action="/index.php/web_monitor/phpinfo">
 		<script type="text/javascript">
@@ -229,7 +232,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</script>
 	</form>
 </div>
-
 
 <h2 class="chart_title0">
 	<span> <?php echo convert_site_name($site); ?> </span>
@@ -254,4 +256,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<span style="padding-left:20px">OXYGEN</span>
 </h2>
 <div id="chartdiv4"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

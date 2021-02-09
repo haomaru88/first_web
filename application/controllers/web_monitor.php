@@ -24,8 +24,13 @@ class Web_monitor extends CI_Controller
 	}
 	
 	public function index() {
-		// $this->load->view('upload_form');
 		$this->load->view('select');
+		// $imsi = $this->home_model->get_latest_data();
+		// $imsi += ['content_filename' => 'home_body_first_page.php'];
+		// $imsi['sidebar_index'] = 0;
+		// $imsi['server_ip'] = $this->get_server_ip();
+		// $this->load->view('home_header');
+		// $this->load->view('home_body', $imsi);
 	}
 
 	public function oxygen2019() {
@@ -46,7 +51,7 @@ class Web_monitor extends CI_Controller
 		$imsi += ['content_filename' => 'home_body_first_page_2020.php'];
 		$imsi['sidebar_index'] = 0;
 		$imsi['server_ip'] = $this->get_server_ip();
-		// $this->load->view('home_header');
+		$this->load->view('home_header');
 		$this->load->view('home_body_2020', $imsi);
 	}
 
@@ -73,6 +78,7 @@ class Web_monitor extends CI_Controller
 			exit;
 		}
 
+		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_one_year_data_2019($site);
 		$imsi += ['content_filename' => 'chart_2019.php'];
 		$imsi['sidebar_index'] = $sb_index;
@@ -83,51 +89,51 @@ class Web_monitor extends CI_Controller
 	}
 
 	public function chart_2020() {
+		$this->home_model->set_db_table(kind_system_name[1]);
 		$site = $this->uri->rsegment(3, 100);
 		$sb_index = $this->uri->rsegment(4, 99) + 1;
 		if ($site==100 || $sb_index==100) {
 			exit;
 		}
 
-		$this->home_model->set_db_table(kind_system_name[1]);
+		// $this->load->model('home_model');
 		$imsi = $this->home_model->get_one_year_data_2020($site);
 		$imsi += ['content_filename' => 'chart_2020.php'];
 		$imsi['sidebar_index'] = $sb_index;
 		$imsi['server_ip'] = $this->get_server_ip();
 
-		// $this->load->view('home_header');
+		$this->load->view('home_header');
 		$this->load->view('home_body_2020', $imsi);
 	}
+	
+	function get($id){
+		echo '
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<meta charset="utf-8"/>
+			</head>
+			<body>
+				토픽 '.$id.'
+			</body>
+		</html>
+		';
+	}
 
-	// function get($id){
-	// 	echo '
-	// 	<!DOCTYPE html>
-	// 	<html>
-	// 		<head>
-	// 			<meta charset="utf-8"/>
-	// 		</head>
-	// 		<body>
-	// 			토픽 '.$id.'
-	// 		</body>
-	// 	</html>
-	// 	';
-	// }
+	function ajax () {
+		echo '
+	<!doctype html>
+	<html>
+		<body>
+			<article>
+			</article>
+	';
+			echo "<input type='button' value='fetch' onclick='fetch(\"/test.txt\").then(console.log('TEST'));'>
+		</body>
+	</html>";
+	}
 
-	// function ajax () {
-	// 	echo '
-	// <!doctype html>
-	// <html>
-	// 	<body>
-	// 		<article>
-	// 		</article>
-	// ';
-	// 		echo "<input type='button' value='fetch' onclick='fetch(\"/test.txt\").then(console.log('TEST'));'>
-	// 	</body>
-	// </html>";
-	// }
-
-	function phpinfo() {
-		$test = $this->input->post(NULL, TRUE);
+	public function phpinfo() {
 		phpinfo();
 	}
 
