@@ -160,8 +160,8 @@
       }
 
       .blink {
-         animation: blink-animation 1s steps(30, start) infinite;
          -webkit-animation: blink-animation 1s steps(30, start) infinite;
+         animation: blink-animation 1s steps(30, start) infinite;
          color : white;
          font-weight : 900;
       }
