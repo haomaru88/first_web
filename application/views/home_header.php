@@ -61,6 +61,7 @@
    <script src="https://www.amcharts.com/lib/4/core.js"></script>
    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
    <meta charset="utf-8">
    <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -212,6 +213,46 @@
          }
          document.body.appendChild(form);
          form.submit();
+      }
+
+      function downloadCSV(array, layer){
+         // var array = [];
+         // array.push({name:"name1", age: 20, test: "test1"});
+         // array.push({name:"name2", age: 22, test: "test2"});
+         // array.push({name:"name3", age: 24, test: "test3"});
+
+         var csv = "site_name, serial_no, date, time, latitude, longitude, wind_direction, wind_speed, air_temperature, " +
+                     "depth1, depth2, depth3, " + (layer==3 ? "" : "depth4,") +
+                     "temperature1, temperature2, temperature3, " + (layer==3 ? "" : "temperature4,") +
+                     "salinity1, salinity2, salinity3, " + (layer==3 ? "" : "salinity4,") +
+                     "oxygen1, oxygen2, oxygen3, " + (layer==3 ? "" : "oxygen4,") +
+                     "battery\r\n";
+
+         $.each(array, function(i, item){
+            csv += "$" + item.site_name + "," + item.serial_no + "," + item.date + "," + item.time + "," + 
+                     item.latitude + "," + item.longitude + "," + item.wind_direction  + "," + item.wind_speed + "," + item.air_temperature + "," + 
+                     item.depth.depth1 + "," + item.depth.depth2 + "," + item.depth.depth3 + "," + (layer==3 ? "" : item.depth.depth4 + ",") +
+                     item.temperature.temperature1 + "," + item.temperature.temperature2 + "," + item.temperature.temperature3 + "," + (layer==3 ? "" : item.temperature.temperature4 + ",") +
+                     item.salinity.salinity1 + "," + item.salinity.salinity2 + "," + item.salinity.salinity3 + "," + (layer==3 ? "" : item.salinity.salinity4 + ",") +
+                     item.oxygen.oxygen1 + "," + item.oxygen.oxygen2 + "," + item.oxygen.oxygen3 + "," + (layer==3 ? "" : item.oxygen.oxygen4 + ",") +
+                     item.battery +
+                     "\r\n";
+         });
+
+         // jquery 사용하지 않는 경우
+         /* for(var i=0; i<array.length; i++){
+            a += array[i].name + "," + array[i].age + "," + array[i].test + "\r\n";
+         } */
+
+         var downloadLink = document.createElement("a");
+         var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+         var url = URL.createObjectURL(blob);
+         downloadLink.href = url;
+         downloadLink.download = array[0].site_name + "_" + array[0].date + ".csv";
+
+         document.body.appendChild(downloadLink);
+         downloadLink.click();
+         document.body.removeChild(downloadLink);
       }
    </script>
 </head>

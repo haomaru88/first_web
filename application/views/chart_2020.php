@@ -232,8 +232,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script type="text/javascript">
 			setting_calendar();
 		</script>
+		<button type="button" onclick="downloadCSV(site_data, layer);" class="btn btn-outline-info btn-sm" style="margin-bottom: 4px;margin-left: 10px;padding-top: 5px;padding-bottom: 5px;">CSV저장</button>
 	</form>
-	<h1>test</h1>
 </div>
 
 <h2 class="chart_title0">
