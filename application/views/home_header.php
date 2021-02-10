@@ -196,8 +196,8 @@
 
    <script>
 
-      var sDate = '2020-09-01';
-      var eDate = '2020-09-30';
+      var sDate = '2020-09-10';
+      var eDate = '2020-09-16';
       
       function sendPost(url, params) {
          var form = document.createElement('form');
@@ -216,11 +216,6 @@
       }
 
       function downloadCSV(array, layer){
-         // var array = [];
-         // array.push({name:"name1", age: 20, test: "test1"});
-         // array.push({name:"name2", age: 22, test: "test2"});
-         // array.push({name:"name3", age: 24, test: "test3"});
-
          var csv = "site_name, serial_no, date, time, latitude, longitude, wind_direction, wind_speed, air_temperature, " +
                      "depth1, depth2, depth3, " + (layer==3 ? "" : "depth4,") +
                      "temperature1, temperature2, temperature3, " + (layer==3 ? "" : "temperature4,") +
@@ -235,8 +230,7 @@
                      item.temperature.temperature1 + "," + item.temperature.temperature2 + "," + item.temperature.temperature3 + "," + (layer==3 ? "" : item.temperature.temperature4 + ",") +
                      item.salinity.salinity1 + "," + item.salinity.salinity2 + "," + item.salinity.salinity3 + "," + (layer==3 ? "" : item.salinity.salinity4 + ",") +
                      item.oxygen.oxygen1 + "," + item.oxygen.oxygen2 + "," + item.oxygen.oxygen3 + "," + (layer==3 ? "" : item.oxygen.oxygen4 + ",") +
-                     item.battery +
-                     "\r\n";
+                     item.battery + "\r\n";
          });
 
          // jquery 사용하지 않는 경우
