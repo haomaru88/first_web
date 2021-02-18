@@ -139,9 +139,9 @@ class Web_monitor extends CI_Controller
 	</html>";
 	}
 
-	public function phpinfo() {
-		phpinfo();
-	}
+	// public function phpinfo() {
+	// 	phpinfo();
+	// }
 
 	// function test() {
 	// }
