@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       .font_color2 {
          color: black;
-         text-align: center;
+         text-align: left;
       }
 
    </style>
@@ -46,5 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
    <ul class="font_color2">
       <li><a class="font_color2" href="/index.php/web_monitor/oxygen2019" title="2019 빈산소 자료">2019 빈산소 수괴 관측 자료</a></li>
       <li><a class="font_color2" href="/index.php/web_monitor/oxygen2020" title="2020 빈산소 자료">2020 빈산소  수괴 관측 자료</a></li>
+      <li><a class="font_color2" href="/index.php/web_monitor/motioneye" title="실시간 영상">실시간 영상</a></li>
    </ul>
 </body>
