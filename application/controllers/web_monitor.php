@@ -153,7 +153,7 @@ class Web_monitor extends CI_Controller
 				<meta name="viewport" content="width=device-width, minimum-scale=0.1">
 			</head>
 			<body style="margin: 0px; background: #0e0e0e;">
-				<img style="-webkit-user-select: none; margin: auto;" src="http://183.103.159.219:8081/" width="1920" height="1080">
+				<img style="-webkit-user-select: auto; margin: auto;" src="http://183.103.159.219:8081/" width="960" height="540">
 			</body>
 		</html>
 		';
