@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html class="no-js" lang="ko" dir="ltr">
 
 <head>
+   <title>Web Monitoring System</title>
    <style>
       body {
          background: linear-gradient(to left, #F5DF4D, #939597);
