@@ -147,15 +147,45 @@ class Web_monitor extends CI_Controller
 	// }
 
 	function motioneye () {
-		echo '
-		<html>
-			<head>
-				<meta name="viewport" content="width=device-width, minimum-scale=0.1">
-			</head>
-			<body style="margin: 0px; background: #0e0e0e;">
-				<img style="-webkit-user-select: auto; margin: auto;" src="http://183.103.159.219:8081/" width="960" height="540">
-			</body>
-		</html>
-		';
+		// echo "
+		// <body>
+		// <video id='player' controls></video>
+		// <input type='file' id='uploader'>
+		// <script src='https://unpkg.com/@ffmpeg/ffmpeg@0.9.6/dist/ffmpeg.min.js'></script>
+		// <script>
+		// 	const { createFFmpeg, fetchFile } = FFmpeg;
+		// 	const ffmpeg = createFFmpeg({ log: true });
+		// 	const transcode = async ({ target: { files } }) => {
+		// 		const { name } = files[0];
+		// 		await ffmpeg.load();
+		// 		ffmpeg.FS('writeFile', name, await fetchFile(files[0]));
+		// 		await ffmpeg.run('-i', name,  'output.mp4');
+		// 		const data = ffmpeg.FS('readFile', 'output.mp4');
+		// 		const video = document.getElementById('player');
+		// 		video.src = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+		// 	}
+		// 	document
+		// 	.getElementById('uploader').addEventListener('change', transcode);
+		// </script>
+		// </body>
+		// ";
+
+		include "motioneye.html";
+		// $fileName = "motioneye.html";
+
+		// if(file_exists($fileName)){
+		// 	$fp = fopen($fileName, 'r');
+		// 	if($fp){
+		// 		$fr = fread($fp, filesize($fileName));
+		// 		if($fr){
+		// 			echo $fr;
+		// 		} else { 
+		// 			echo "파일 읽기에 실패하였습니다.";
+		// 		}
+		// 		fclose($fp);
+		// 	} else { 
+		// 		echo "파일 열기에 실패하였습니다."; 
+		// 	}
+		// }	
 	}
 }
