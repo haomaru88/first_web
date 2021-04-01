@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+// require 'select.html';
 ?>
 
 <!DOCTYPE html>
 <html class="no-js" lang="ko" dir="ltr">
-
 <head>
    <title>Web Monitoring System</title>
    <style>
@@ -16,32 +16,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          margin-right: auto;
          margin-top: 300px;
       }
-
       ul {
          display: table;
          margin-left: auto;
          margin-right: auto;
       }
-
       h1 {
          font-size: 64px;
          text-shadow: 2px 2px 10px black;
          /* text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; */
       }
-
       .font_color {
          color: white;
          text-align: center;
       }
-
       .font_color2 {
          color: black;
          text-align: left;
       }
-
    </style>
 </head>
-
 <body class="font_color">
    <h1>지마텍 &nbsp모니터링 &nbsp시스템</h1>
    <ul class="font_color2">
